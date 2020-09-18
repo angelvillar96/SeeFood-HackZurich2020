@@ -1,2 +1,2 @@
 # SeeFood-HackZurich2020
-Prject for the HackZurich 2020 Hacktohn
+Project for the HackZurich 2020 Hackathon
