@@ -33,22 +33,17 @@ export default class HomeScreen extends React.Component {
   async componentDidMount() {
     // if(this.state.recipes.length == 0){
     const recipes = this.get_recipe_data()
-    await this.setState({recipes: recipes})
+    // await this.setState({recipes: recipes})
   }
 
   get_recipe_data = async () => {
-
-    const random_healthy = ["apple", "potato", "rice", "salad", "tomato",
-                            "fish", "pizza", "lasagna", "beans"]
-    const random_ingredient = random_healthy[Math.floor(Math.random() * random_healthy.length)];
-    console.log(random_ingredient)
 
     const username = await getUsername()
     console.log(username)
     const formData = new FormData()
     formData.append("username", username);
-    formData.append("ingredient", random_ingredient);
-    var recipes = None
+    formData.append("ingredient", undefined);
+    const $this = this
     await axios({
       method: 'post',
       url: 'http://10.15.1.254:5000/api/get_recipe',
@@ -56,10 +51,12 @@ export default class HomeScreen extends React.Component {
       headers: {'content-type': 'multipart/form-data',
                 "Accept": "application/json"}
     })
-    .then(function (response) {
+    .then(async function (response) {
       console.log("siiiii")
-      console.log(response.data)
-      recipes: response.data
+      // console.log(response.data)
+      var recipes = response.data.recommendations
+      console.log(recipes)
+      await $this.setState({recipes: recipes})
     })
     .catch(function(error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
@@ -67,7 +64,9 @@ export default class HomeScreen extends React.Component {
         throw error;
     });
 
-    return recipes
+    // console.log(recipes.length)
+
+    // return recipes
 
   }
 
@@ -88,6 +87,8 @@ export default class HomeScreen extends React.Component {
 
   render() {
 
+    // console.log(this.state.recipes.length)
+    // console.log(this.state.recipes)
     return (
       <View>
         <FlatList

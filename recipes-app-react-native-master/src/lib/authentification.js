@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 
 
 export const setUsername = () =>{
-  AsyncStorage.setItem('username', 'test');
+  AsyncStorage.setItem('username', 'theo');
 }
 
 export const getUsername = async () =>{
