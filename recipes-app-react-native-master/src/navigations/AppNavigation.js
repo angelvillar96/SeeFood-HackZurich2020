@@ -16,11 +16,14 @@ import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
+import Onboarding from '../../src/screens/Onboarding';
+
 
 const MainNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     Categories: CategoriesScreen,
+    Onboarding: Onboarding,
     Recipe: RecipeScreen,
     RecipesList: RecipesListScreen,
     Ingredient: IngredientScreen,

@@ -5,6 +5,7 @@ import MenuImage from '../../components/MenuImage/MenuImage';
 import DrawerActions from 'react-navigation';
 import { getCategoryName } from '../../data/MockDataAPI';
 import axios from 'axios';
+import RecipeScreen from '../Recipe/RecipeScreen';
 import { AsyncStorage } from 'react-native';
 
 import {setUsername} from '../../lib/authentification.js'
@@ -14,7 +15,7 @@ import {getUsername} from '../../lib/authentification.js'
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Recipes',
-    headerLeft: () => <MenuImage
+    headerLeft: () => <RecipeScreen
       onPress={() => {
         navigation.openDrawer();
       }}
@@ -71,7 +72,7 @@ export default class HomeScreen extends React.Component {
   }
 
   onPressRecipe = item => {
-    this.props.navigation.navigate('RecipeScreen', { item });
+    this.props.navigation.navigate('Recipe', { item });
     // this.props.navigation.navigate('RecipeScreen');
   };
 
