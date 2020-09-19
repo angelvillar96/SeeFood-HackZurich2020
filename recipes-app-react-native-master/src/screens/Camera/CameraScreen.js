@@ -1,41 +1,143 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { Camera } from 'expo';
-import * as Permissions from 'expo-permissions';
+import React from 'react'
+import { StyleSheet, Text, View, Platform, Button, Image } from 'react-native'
+import { Camera} from 'expo-camera'
+import * as Permissions from 'expo-permissions'
 
-import styles from './styles';
+export default class App extends React.Component {
+  state = {
+    hasCameraPermission: false,
+    type: Camera.Constants.Type.back,
+    flashMode: Camera.Constants.FlashMode.off,
+    autoFocus: Camera.Constants.AutoFocus.on,
+    zoom: 0,
+    whiteBalance: Camera.Constants.WhiteBalance.auto,
+    focusDepth: 0,
+    ratio: '16:9',
+  }
 
-export default class CameraScreen extends React.Component {
-    camera = null;
+  render() {
+    const {
+      hasCameraPermission,
+      type,
+      flashMode,
+      zoom,
+      whiteBalance,
+      focusDepth,
+      photo,
+    } = this.state
 
-    state = {
-        hasCameraPermission: null,
-    };
+    if (!hasCameraPermission) {
+      return <View style={styles.container} />
+    }
 
-    async componentDidMount() {
-        const camera = await Permissions.askAsync(Permissions.CAMERA);
-        const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-        const hasCameraPermission = (camera.status === 'granted' && audio.status === 'granted');
+    return (
+      <View style={styles.container}>
+        <Camera
+          style={styles.camera}
+          ref={ref => (this._cameraInstance = ref)}
+          type={type}
+          flashMode={flashMode}
+          zoom={zoom}
+          whiteBalance={whiteBalance}
+          focusDepth={focusDepth}
+        />
 
-        this.setState({ hasCameraPermission });
-    };
+        <View style={styles.controls}>
+          <Button
+            title="Take photo"
+            onPress={this._takePictureButtonPressed}
+          />
 
-    render() {
-        const { hasCameraPermission } = this.state;
+          {photo && <Image style={styles.photo} source={photo} />}
+        </View>
+      </View>
+    )
+  }
 
-        if (hasCameraPermission === null) {
-            return <View />;
-        } else if (hasCameraPermission === false) {
-            return <Text>Access to camera has been denied.</Text>;
+  async componentDidMount() {
+    try {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA)
+
+      this.setState({ hasCameraPermission: status === 'granted' })
+
+      if (status !== 'granted') {
+        alert('Hey! You might want to enable Camera in your phone settings.')
+      }
+    } catch (err) {
+      console.log('err', err)
+    }
+
+    if (Platform.OS === 'android') {
+      try {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+
+        this.setState({ hasCameraPermission: status === 'granted' })
+
+        if (status !== 'granted') {
+          alert('Hey! You might want to enable Camera in your phone settings.')
         }
+      } catch (err) {
+        console.log('err', err)
+      }
+    }
+  }
 
-        return (
-            <View>
-                <Camera
-                    style={styles.preview}
-                    ref={camera => this.camera = camera}
-                />
-            </View>
-        );
-    };
-};
+  _takePictureButtonPressed = async () => {
+    if (this._cameraInstance) {
+      const options = { quality: 0.1, base64: true};
+      const photo = await this._cameraInstance.takePictureAsync(options);
+      this.setState({ photo })
+      const {uri, width, height,base64} = photo;
+      // console.log({uri, width, height});
+      
+      // Post the base54 image data
+      /*
+      fetch('.........', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Content-Transfer-Encoding':'base64'
+        },
+        body: JSON.stringify({
+          base64: base64
+        }),
+      });
+      */
+    }
+  }
+}
+
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+    position: 'relative',
+  },
+
+  camera: {
+    flex: 1,
+  },
+
+  controls: {
+    position: 'absolute',
+    zIndex: 10,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  photo: {
+    width: 100,
+    height: 100,
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    top: 0,
+  },
+})
