@@ -1,15 +1,17 @@
 import React from 'react'
-import { StyleSheet, Text, View, Platform, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, Image, ActivityIndicator, Alert } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import axios from 'axios';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { getUsername } from '../../lib/authentification.js'
 import Theme from '../../constant/Theme.js';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { getRecipesByIngredient } from '../../data/MockDataAPI.js';
 
-export default class App extends React.Component {
+import ResultScreen from '../Results/ResultScreen';
+
+
+export default class CameraScreen extends React.Component {
   state = {
     hasCameraPermission: false,
     type: Camera.Constants.Type.back,
@@ -21,6 +23,12 @@ export default class App extends React.Component {
     ratio: '16:9',
     processing: false,
   }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+        headerTransparent: 'true'
+    };
+};
 
   render() {
     const {
@@ -58,7 +66,7 @@ export default class App extends React.Component {
               // title="Take photo"
               onPress={this._takePictureButtonPressed} >
 
-              <Ionicons name='ios-camera' size='50' color='white' />
+              <Ionicons name='ios-camera' size={50.0} color='white' />
             </TouchableOpacity>
             {photo && <Image style={styles.photo} source={photo} />}
           </View>
@@ -127,7 +135,8 @@ export default class App extends React.Component {
       var self = this;
       axios({
         method: 'post',
-        url: 'http://10.15.1.254:5000/api/process_food', // 10.15.1.254 192.168.2.115
+        timeout: 10000,
+        url: 'http://192.168.2.115:5000/api/process_food', // 10.15.1.254 192.168.2.115
         data: formData,
         headers: {
           'content-type': 'multipart/form-data',
@@ -138,10 +147,15 @@ export default class App extends React.Component {
           self.setState({
             processing: false
           });
-          console.log("siiiii")
-          console.log(response.data)
+          
+          self.props.navigation.navigate('Results', {response: response});
         })
         .catch(function (error) {
+          self.setState({
+            processing: false
+          });
+
+          Alert.alert('Error', 'There has been a problem with your fetch operation.')
           console.log('There has been a problem with your fetch operation: ' + error.message);
           // ADD THIS THROW error
           throw error;

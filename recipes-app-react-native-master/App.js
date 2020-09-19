@@ -15,6 +15,7 @@ import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
 import CameraScreen from './src/screens/Camera/CameraScreen';
 import Profile from './src/screens/Profile/Profile';
+import ResultScreen from './src/screens/Results/ResultScreen';
 
 const HomeStack = createStackNavigator();
 
@@ -50,9 +51,10 @@ const CameraStack = createStackNavigator();
 
 function CameraScreenStack() {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Camera" component={CameraScreen} />
-    </HomeStack.Navigator>
+    <CameraStack.Navigator>
+      <CameraStack.Screen name="Camera" component={CameraScreen} />
+      <CameraStack.Screen name="Results" component={ResultScreen} />
+    </CameraStack.Navigator>
   );
 }
 
