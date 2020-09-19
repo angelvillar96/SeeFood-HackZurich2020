@@ -19,7 +19,7 @@ const HomeStack = createStackNavigator();
 function HomeScreenStack() {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Recipes" component={HomeScreen} />
     </HomeStack.Navigator>
   );
 }
