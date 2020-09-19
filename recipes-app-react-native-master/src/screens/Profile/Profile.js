@@ -1,14 +1,15 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
+import { StyleSheet, Dimensions, SafeAreaView, ScrollView, Image, ImageBackground, Platform, View } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
-
+import { Card } from "@paraboly/react-native-card";
 import { Button } from './Button';
 import { Images, nowTheme } from '../../constant';
 import { HeaderHeight } from '../../constant/utils';
+import Constants from 'expo-constants';
 
 const { width, height } = Dimensions.get('screen');
 
-const thumbMeasure = (width - 48 - 32) / 3;
+const thumbMeasure = (width - 48 - 32) / 2.5;
 
 export default class Profile extends React.Component {
 
@@ -27,11 +28,13 @@ export default class Profile extends React.Component {
       },
       profileBackground: {
         width,
-        height: height * 0.6
+        height: height * 0.50
       },
-
+      card: {
+        margin: 5,
+      },
       info: {
-        marginTop: 30,
+        marginTop: 20,
         paddingHorizontal: 10,
         height: height * 0.8
       },
@@ -46,7 +49,7 @@ export default class Profile extends React.Component {
         borderWidth: 0
       },
       nameInfo: {
-        marginTop: 35
+        marginTop: 25
       },
       thumb: {
         borderRadius: 4,
@@ -79,10 +82,10 @@ export default class Profile extends React.Component {
           >
             <Block flex style={styles.profileCard}>
               <Block style={{ position: 'absolute', width: width, zIndex: 5, paddingHorizontal: 20 }}>
-                <Block middle style={{ top: height * 0.15 }}>
+                <Block middle style={{ top: height * 0.10 }}>
                   <Image source={Images.ProfilePicture} style={styles.avatar} />
                 </Block>
-                <Block style={{ top: height * 0.2 }}>
+                <Block style={{ top: height * 0.15 }}>
                   <Block middle >
                     <Text
                       style={{
@@ -91,7 +94,7 @@ export default class Profile extends React.Component {
                         fontSize: 26
                       }}
                       color='#ffffff'
-                      >
+                    >
                       Ryan Scheinder
                     </Text>
 
@@ -116,12 +119,12 @@ export default class Profile extends React.Component {
                         <Text
                           size={18}
                           color="white"
-                          style={{ marginBottom: 4}}
+                          style={{ marginBottom: 4 }}
                         >
-                          2K
+                          24
                         </Text>
-                        <Text  size={14} color="white">
-                          Friends
+                        <Text size={14} color="white">
+                          Age
                         </Text>
                       </Block>
 
@@ -129,12 +132,12 @@ export default class Profile extends React.Component {
                         <Text
                           color="white"
                           size={18}
-                          style={{ marginBottom: 4}}
+                          style={{ marginBottom: 4 }}
                         >
-                          26
+                          178 cm
                         </Text>
-                        <Text  size={14} color="white">
-                          Comments
+                        <Text size={14} color="white">
+                          Height
                           </Text>
                       </Block>
 
@@ -142,118 +145,111 @@ export default class Profile extends React.Component {
                         <Text
                           color="white"
                           size={18}
-                          style={{ marginBottom: 4}}
+                          style={{ marginBottom: 4 }}
                         >
-                          48
+                          70 Kg
                         </Text>
-                        <Text  size={14} color="white">
-                          Bookmarks
+                        <Text size={14} color="white">
+                          Weight
                         </Text>
                       </Block>
 
                     </Block>
                   </Block>
                 </Block>
-
-              </Block>
-
-              <Block
-                middle
-                row
-                style={{ position: 'absolute', width: width, top: height * 0.6 - 22, zIndex: 99 }}
-              >
-                {/* <Button style={{ width: 114, height: 44, marginHorizontal: 5, elevation: 0 }} textStyle={{ fontSize: 16 }} round>
-                  Follow
-                </Button> */}
-                <GaButton
-                  round
-                  onlyIcon
-                  shadowless
-                  icon="twitter"
-                  iconFamily="Font-Awesome"
-                  iconColor={nowTheme.COLORS.WHITE}
-                  iconSize={nowTheme.SIZES.BASE * 1.375}
-                  color={'#888888'}
-                  style={[styles.social, styles.shadow]}
-                />
-                <GaButton
-                  round
-                  onlyIcon
-                  shadowless
-                  icon="pinterest"
-                  iconFamily="Font-Awesome"
-                  iconColor={nowTheme.COLORS.WHITE}
-                  iconSize={nowTheme.SIZES.BASE * 1.375}
-                  color={'#888888'}
-                  style={[styles.social, styles.shadow]}
-                />
               </Block>
             </Block>
           </ImageBackground>
-
-
         </Block>
-        <Block />
-        <Block flex={0.4} style={{ padding: theme.SIZES.BASE, marginTop: 90}}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Block flex style={{ marginTop: 20 }}>
-              <Block middle>
-                <Text
-                  style={{
-                    color: '#2c2c2c',
-                    fontWeight: 'bold',
-                    fontSize: 19,
-                    marginTop: 15,
-                    marginBottom: 30,
-                    zIndex: 2
+        <Block flex={0.4}
+          style={{ padding: theme.SIZES.BASE, marginTop: 100 }}>
+          <SafeAreaView style={{
+            flex: 1,
+            // marginTop: Constants.statusBarHeight,
+          }}>
+            <ScrollView style={{flex: 1}} >
+              <View style={styles.card}>
+                <Card
+                  iconDisable
+                  title="Activity Title"
+                  titleFontSize={20}
+                  iconName="home"
+                  iconType="Entypo"
+                  onPress={() => { }}
+                  borderRadius={20}
+                  topRightText="09:30"
+                  bottomRightText="30 km"
+                  iconBackgroundColor="#fcd"
+                  textContainerNumberOfLines={null}
+                  content="General description about the activity and or the event"
+                  topRightStyle={{
+                    fontSize: 12,
+                    fontWeight: "700",
+                    color: "#505e80"
                   }}
-                >
-                  About me
-                    </Text>
-                <Text
-                  size={16}
-                  muted
-                  style={{
-                    textAlign: 'center',
-                    zIndex: 2,
-                    lineHeight: 25,
-                    color: '#9A9A9A',
-                    paddingHorizontal: 15
+                  bottomRightStyle={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    color: "#505e80"
                   }}
-                >
-                  An artist of considerable range, named Ryan — the name has taken by Melbourne has raised,
-                  Brooklyn-based Nick Murphy — writes, performs and records all of his own music.
-                    </Text>
-              </Block>
-              <Block row style={{ paddingVertical: 14, paddingHorizontal: 15 }} space="between">
-                <Text bold size={16} color="#2c2c2c" style={{ marginTop: 3 }}>
-                  Album
-                    </Text>
-                {/* <Button small
-                  color="transparent"
-                  textStyle={{ color: nowTheme.COLORS.PRIMARY, fontSize: 14 }}
-                >
-                  View all
-                    </Button> */}
-              </Block>
-
-
-              <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15}}>
-                <Block row space="between" style={{ flexWrap: 'wrap' }}>
-                  {Images.Viewed.map((img, imgIndex) => (
-                    <Image
-                      source={img}
-                      key={`viewed-${img}`}
-                      resizeMode="cover"
-                      style={styles.thumb}
-                    />
-                  ))}
-                </Block>
-              </Block>
-            </Block>
-          </ScrollView>
+                />
+              </View>
+              <View style={styles.card}>
+                <Card
+                  iconDisable
+                  title="Activity Title"
+                  titleFontSize={20}
+                  iconName="home"
+                  iconType="Entypo"
+                  onPress={() => { }}
+                  borderRadius={20}
+                  topRightText="09:30"
+                  bottomRightText="30 km"
+                  iconBackgroundColor="#fcd"
+                  textContainerNumberOfLines={null}
+                  content="General description about the activity and or the event"
+                  topRightStyle={{
+                    fontSize: 12,
+                    fontWeight: "700",
+                    color: "#505e80"
+                  }}
+                  bottomRightStyle={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    color: "#505e80"
+                  }}
+                />
+              </View>
+              <View style={styles.card}>
+                <Card
+                  iconDisable
+                  title="Activity Title"
+                  titleFontSize={20}
+                  iconName="home"
+                  iconType="Entypo"
+                  onPress={() => { }}
+                  borderRadius={20}
+                  topRightText="09:30"
+                  bottomRightText="30 km"
+                  iconBackgroundColor="#fcd"
+                  textContainerNumberOfLines={null}
+                  content="General description about the activity and or the event"
+                  topRightStyle={{
+                    fontSize: 12,
+                    fontWeight: "700",
+                    color: "#505e80"
+                  }}
+                  bottomRightStyle={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    color: "#505e80"
+                  }}
+                />
+              </View>
+            </ScrollView>
+          </SafeAreaView>
         </Block>
       </Block>
-      );
+    );
   }
 }
