@@ -1,8 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, View, Platform, Button, Image } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import axios from 'axios';
+
+import { getUsername } from '../../lib/authentification.js'
+import Theme from '../../constant/Theme.js';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { getRecipesByIngredient } from '../../data/MockDataAPI.js';
 
 export default class App extends React.Component {
   state = {
@@ -14,6 +19,7 @@ export default class App extends React.Component {
     whiteBalance: Camera.Constants.WhiteBalance.auto,
     focusDepth: 0,
     ratio: '16:9',
+    processing: false,
   }
 
   render() {
@@ -25,6 +31,7 @@ export default class App extends React.Component {
       whiteBalance,
       focusDepth,
       photo,
+      processing
     } = this.state
 
     if (!hasCameraPermission) {
@@ -43,14 +50,27 @@ export default class App extends React.Component {
           focusDepth={focusDepth}
         />
 
-        <View style={styles.controls}>
-          <Button
-            title="Take photo"
-            onPress={this._takePictureButtonPressed}
-          />
 
-          {photo && <Image style={styles.photo} source={photo} />}
-        </View>
+        {processing == false ? (
+          <View style={styles.controls}>
+            <TouchableOpacity
+              style={styles.camera_button}
+              // title="Take photo"
+              onPress={this._takePictureButtonPressed} >
+
+              <Ionicons name='ios-camera' size={50.0} color='white' />
+            </TouchableOpacity>
+            {photo && <Image style={styles.photo} source={photo} />}
+          </View>
+        ) : (
+          <View style={styles.activity_indicator}>
+
+            <ActivityIndicator color={Theme.COLORS.PRIMARY} size='large' />
+            <Text style={styles.processing_label}>Processing Food</Text>
+          </View>
+        )}
+
+
       </View>
     )
   }
@@ -90,26 +110,42 @@ export default class App extends React.Component {
       const options = { quality: 0.1, base64: true };
       const photo = await this._cameraInstance.takePictureAsync(options);
       this.setState({ photo })
-      const {uri, width, height,base64} = photo;
+      const { uri, width, height, base64 } = photo;
       // console.log({uri, width, height});
 
       // Post the base54 image data
-      console.log("hola")
+      const username = await getUsername()
+      console.log(username)
+      const formData = new FormData()
+      formData.append("username", username);
+      formData.append("image", base64);
+
+      this.setState({
+        processing: true
+      });
+
+      var self = this;
       axios({
         method: 'post',
-        url: 'http://10.15.0.208:5000/api/process_food/',
-        data: {img: base64},
-        headers: {'content-type': 'multipart/form-data',
-                  "Accept": "application/json"}
+        url: 'http://10.15.1.254:5000/api/process_food', // 10.15.1.254 192.168.2.115
+        data: formData,
+        headers: {
+          'content-type': 'multipart/form-data',
+          "Accept": "application/json"
+        }
       })
-      .then(function (response) {
-        console.log(response.data)
-      })
-      .catch(function(error) {
-        console.log('There has been a problem with your fetch operation: ' + error.message);
-         // ADD THIS THROW error
+        .then(function (response) {
+          self.setState({
+            processing: false
+          });
+          console.log("siiiii")
+          console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message);
+          // ADD THIS THROW error
           throw error;
-      });
+        });
     }
   }
 }
@@ -124,6 +160,33 @@ const styles = StyleSheet.create({
 
   camera: {
     flex: 1,
+  },
+
+  camera_button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 75,
+    height: 75,
+    backgroundColor: Theme.COLORS.PRIMARY,
+    borderRadius: 50,
+    marginBottom: 48,
+  },
+
+  activity_indicator: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+  },
+
+  processing_label: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: Theme.COLORS.PRIMARY,
   },
 
   controls: {
