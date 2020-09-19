@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from './src/screens/Home/HomeScreen';
+import DietOverviewScreen from './src/screens/DietOverview/DietOverview';
 import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
 import CameraScreen from './src/screens/Camera/CameraScreen';
@@ -18,9 +19,20 @@ function HomeScreenStack() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={HomeScreen} />
-    </HomeStack.Navigator>    
+    </HomeStack.Navigator>
   );
 }
+
+const DietOverview = createStackNavigator();
+
+function DietOverviewStack() {
+  return (
+    <DietOverview.Navigator>
+      <DietOverview.Screen name="DietOverview" component={DietOverviewScreen} />
+    </DietOverview.Navigator>
+  );
+}
+
 
 const CameraStack = createStackNavigator();
 
@@ -54,6 +66,8 @@ export default function App() {
 
             if (route.name === 'Home') {
               iconName = 'ios-home';
+            } else if (route.name === 'Overview') {
+              iconName = 'list-outline';
             } else if (route.name === 'Scan') {
               iconName = 'ios-camera';
             } else if (route.name === 'Profile') {
@@ -70,6 +84,7 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Home" component={HomeScreenStack} />
+        <Tab.Screen name="Overview" component={DietOverviewStack} />
         <Tab.Screen name="Scan" component={CameraScreenStack} />
         <Tab.Screen name="Profile" component={ProfileScreenStack} />
       </Tab.Navigator>
