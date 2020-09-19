@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 
-import { Button } from './Button';
 import { Images, nowTheme } from '../../constant';
 import { HeaderHeight } from '../../constant/utils';
 
@@ -10,7 +9,7 @@ const { width, height } = Dimensions.get('screen');
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-export default class Profile extends React.Component {
+export default class NewsFeed extends React.Component {
 
   constructor(props) {
     super(props);

@@ -4,10 +4,11 @@ import {createStackNavigator} from 'react-navigation-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native'
 import React, {Component} from 'react';
-/* 
+/*
 import {createStackNavigator} from '@react-navigation/stack'
 import {createDrawerNavigator} from '@react-navigation/drawer' */
 import HomeScreen from '../screens/Home/HomeScreen';
+import DietOverview from '../screens/DietOverview/DietOverview';
 import CategoriesScreen from '../screens/Categories/CategoriesScreen';
 import RecipeScreen from '../screens/Recipe/RecipeScreen';
 import RecipesListScreen from '../screens/RecipesList/RecipesListScreen';
@@ -38,7 +39,7 @@ import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsD
 //       }
 //     })
 //   }
-// ); 
+// );
 
 const Tab = createBottomTabNavigator();
 
@@ -47,6 +48,7 @@ function TabContainer() {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Overview" component={DietOverview} />
         <Tab.Screen name="Categories" component={CategoriesScreen} />
       </Tab.Navigator>
     </NavigationContainer>
@@ -64,7 +66,7 @@ function TabContainer() {
 //     contentComponent: DrawerContainer
 //   }
 // );
- 
+
 export default TabContainer = TabContainer();
 
 console.disableYellowBox = true;

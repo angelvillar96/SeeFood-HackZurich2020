@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 
-import { Button } from './Button';
 import { Images, nowTheme } from '../../constant';
 import { HeaderHeight } from '../../constant/utils';
+import { ProgressBar, Colors } from 'react-native-paper';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -27,7 +27,11 @@ export default class Profile extends React.Component {
       },
       profileBackground: {
         width,
-        height: height * 0.6
+        height: height * 0.15
+      },
+
+      backgroundStyle: {
+        color: "#00e003"
       },
 
       info: {
@@ -65,22 +69,23 @@ export default class Profile extends React.Component {
       }
     });
 
+
+    const progress_title = "You are killing it!"
+    const progress_subtitle = "You are still 100 calories behid target!"
+
+
     return (
       <Block style={{
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
       }} >
-        <Block flex={0.6} >
-          <ImageBackground
-            source={Images.ProfileBackground}
-            style={styles.profileContainer}
-            imageStyle={styles.profileBackground}
-          >
+        <Block flex={0.2} >
+          <Block style={styles.backgroundStyle}>
             <Block flex style={styles.profileCard}>
               <Block style={{ position: 'absolute', width: width, zIndex: 5, paddingHorizontal: 20 }}>
                 <Block middle style={{ top: height * 0.15 }}>
-                  <Image source={Images.ProfilePicture} style={styles.avatar} />
+                  <ProgressBar progress={0.6} color="#000000"/>
                 </Block>
                 <Block style={{ top: height * 0.2 }}>
                   <Block middle >
@@ -92,7 +97,7 @@ export default class Profile extends React.Component {
                       }}
                       color='#ffffff'
                       >
-                      Ryan Scheinder
+                      {progress_title}
                     </Text>
 
                     <Text
@@ -106,7 +111,7 @@ export default class Profile extends React.Component {
                         opacity: .8
                       }}
                     >
-                      Photographer
+                      {progress_subtitle}
                     </Text>
                   </Block>
                   <Block style={styles.info}>
@@ -189,7 +194,7 @@ export default class Profile extends React.Component {
                 />
               </Block>
             </Block>
-          </ImageBackground>
+          </Block>
 
 
         </Block>
@@ -229,26 +234,9 @@ export default class Profile extends React.Component {
                 <Text bold size={16} color="#2c2c2c" style={{ marginTop: 3 }}>
                   Album
                     </Text>
-                {/* <Button small
-                  color="transparent"
-                  textStyle={{ color: nowTheme.COLORS.PRIMARY, fontSize: 14 }}
-                >
-                  View all
-                    </Button> */}
               </Block>
 
-
               <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15}}>
-                <Block row space="between" style={{ flexWrap: 'wrap' }}>
-                  {Images.Viewed.map((img, imgIndex) => (
-                    <Image
-                      source={img}
-                      key={`viewed-${img}`}
-                      resizeMode="cover"
-                      style={styles.thumb}
-                    />
-                  ))}
-                </Block>
               </Block>
             </Block>
           </ScrollView>
