@@ -13,7 +13,7 @@ import {getUsername} from '../../lib/authentification.js'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Home',
+    title: 'Recipes',
     headerLeft: () => <MenuImage
       onPress={() => {
         navigation.openDrawer();
@@ -71,7 +71,8 @@ export default class HomeScreen extends React.Component {
   }
 
   onPressRecipe = item => {
-    this.props.navigation.navigate('Recipe', { item });
+    this.props.navigation.navigate('RecipeScreen', { item });
+    // this.props.navigation.navigate('RecipeScreen');
   };
 
 

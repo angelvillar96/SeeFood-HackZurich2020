@@ -14,6 +14,7 @@ import DietOverviewScreen from './src/screens/DietOverview/DietOverview';
 import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
 import CameraScreen from './src/screens/Camera/CameraScreen';
+import RecipeScreen from './src/screens/Recipe/RecipeScreen';
 import Profile from './src/screens/Profile/Profile';
 
 const HomeStack = createStackNavigator();
@@ -26,12 +27,22 @@ function HomeScreenStack() {
   );
 }
 
+const RecipeStack = createStackNavigator();
+
+function RecipeScreenStack() {
+  return (
+    <RecipeStack.Navigator>
+      <RecipeStack.Screen name="RecipeScreen" component={RecipeScreen} />
+    </RecipeStack.Navigator>
+  );
+}
+
 const NewsFeed = createStackNavigator();
 
 function NewsFeedStack() {
   return (
     <NewsFeed.Navigator>
-      <NewsFeed.Screen name="DietOverview" component={NewsFeedScreen} />
+      <NewsFeed.Screen name="NewsFeed" component={NewsFeedScreen} />
     </NewsFeed.Navigator>
   );
 }
