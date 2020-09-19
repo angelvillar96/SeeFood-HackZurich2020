@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AppContainer from './src/navigations/AppNavigation';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,6 +11,7 @@ import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
 import CameraScreen from './src/screens/Camera/CameraScreen';
 import Profile from './src/screens/Profile/Profile';
+import Onboarding from './src/screens/Onboarding';
 
 const HomeStack = createStackNavigator();
 
@@ -18,7 +19,7 @@ function HomeScreenStack() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={HomeScreen} />
-    </HomeStack.Navigator>    
+    </HomeStack.Navigator>
   );
 }
 
@@ -45,34 +46,47 @@ function ProfileScreenStack() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [onBoardingStatus, setonBoardingStatus] = useState(false);
+  const handlePress = useCallback(
+    () => {
+      setonBoardingStatus(true)
+    },
+    [onBoardingStatus],
+  );
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    <React.Fragment>
+      {
+        onBoardingStatus ?
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
 
-            if (route.name === 'Home') {
-              iconName = 'ios-home';
-            } else if (route.name === 'Scan') {
-              iconName = 'ios-camera';
-            } else if (route.name === 'Profile') {
-              iconName = 'ios-person';
-            }
+                  if (route.name === 'Home') {
+                    iconName = 'ios-home';
+                  } else if (route.name === 'Scan') {
+                    iconName = 'ios-camera';
+                  } else if (route.name === 'Profile') {
+                    iconName = 'ios-person';
+                  }
 
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        }}
-      >
-        <Tab.Screen name="Home" component={HomeScreenStack} />
-        <Tab.Screen name="Scan" component={CameraScreenStack} />
-        <Tab.Screen name="Profile" component={ProfileScreenStack} />
-      </Tab.Navigator>
-    </NavigationContainer >
+                  // You can return any component that you like here!
+                  return <Ionicons name={iconName} size={size} color={color} />;
+                },
+              })}
+              tabBarOptions={{
+                activeTintColor: 'tomato',
+                inactiveTintColor: 'gray',
+              }}
+            >
+              <Tab.Screen name="Home" component={HomeScreenStack} />
+              <Tab.Screen name="Scan" component={CameraScreenStack} />
+              <Tab.Screen name="Profile" component={ProfileScreenStack} />
+            </Tab.Navigator>
+          </NavigationContainer > :
+          <Onboarding setonBoardingStatus={setonBoardingStatus}/>
+      }
+    </React.Fragment>
   );
 }
