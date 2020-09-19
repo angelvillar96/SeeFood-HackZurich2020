@@ -134,7 +134,7 @@ export default class CameraScreen extends React.Component {
       var self = this;
       axios({
         method: 'post',
-        url: 'http://192.168.2.115:5000/api/process_food', // 10.15.1.254 192.168.2.115
+        url: 'http://10.15.1.254:5000/api/process_food', // 10.15.1.254 192.168.2.115
         data: formData,
         headers: {
           'content-type': 'multipart/form-data',
