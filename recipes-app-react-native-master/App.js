@@ -10,6 +10,7 @@ import HomeScreen from './src/screens/Home/HomeScreen';
 import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
 import CameraScreen from './src/screens/Camera/CameraScreen';
+import Profile from './src/screens/Profile/Profile';
 
 const HomeStack = createStackNavigator();
 
@@ -36,7 +37,7 @@ const ProfileStack = createStackNavigator();
 function ProfileScreenStack() {
   return (
     <ProfileStack.Navigator>
-      <ProfileStack.Screen name="Profile" component={SearchScreen} />
+      <ProfileStack.Screen name="Profile" component={Profile} />
     </ProfileStack.Navigator>
   );
 }

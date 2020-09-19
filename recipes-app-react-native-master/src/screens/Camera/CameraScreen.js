@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, Platform, Button, Image } from 'react-native'
-import { Camera} from 'expo-camera'
+import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import axios from 'axios';
 
@@ -89,7 +89,7 @@ export default class App extends React.Component {
 
   _takePictureButtonPressed = async () => {
     if (this._cameraInstance) {
-      const options = { quality: 0.1, base64: true};
+      const options = { quality: 0.1, base64: true };
       const photo = await this._cameraInstance.takePictureAsync(options);
       this.setState({ photo })
       const {uri, width, height, base64} = photo;
