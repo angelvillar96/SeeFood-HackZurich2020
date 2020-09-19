@@ -10,6 +10,7 @@ const COLORS = {
   NEUTRAL: 'rgba(255, 255, 255, 0.2)',
   TABS: 'rgba(222, 222, 222, 0.3)',
   TEXT: '#32325D',
+  EARTH: '#71a6fc',
   MUTED: '#8898AA',
   INPUT: '#DCDCDC',
   INPUT_SUCCESS: '#1be611',

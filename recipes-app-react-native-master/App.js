@@ -18,6 +18,25 @@ import RecipeScreen from './src/screens/Recipe/RecipeScreen';
 import Profile from './src/screens/Profile/Profile';
 import Onboarding from './src/screens/Onboarding';
 
+const Stack = createStackNavigator();
+<NavigationContainer>
+    <Stack.Navigator initialRouteName="Recipes">
+      <Stack.Screen name="Recipes" component={HomeScreen} />
+      <Stack.Screen name="Recipe" component={RecipeScreen} />
+    </Stack.Navigator>
+</NavigationContainer>
+
+
+const OnboardingStack = createStackNavigator();
+
+function OnboardingScreenStack() {
+  return (
+    <OnboardingStack.Navigator>
+      <OnboardingStack.Screen name="Onboard" component={Onboarding} />
+    </OnboardingStack.Navigator>
+  );
+}
+
 const HomeStack = createStackNavigator();
 
 function HomeScreenStack() {
@@ -33,7 +52,7 @@ const RecipeStack = createStackNavigator();
 function RecipeScreenStack() {
   return (
     <RecipeStack.Navigator>
-      <RecipeStack.Screen name="RecipeScreen" component={RecipeScreen} />
+      <RecipeStack.Screen name="Recipe" component={RecipeScreen} />
     </RecipeStack.Navigator>
   );
 }

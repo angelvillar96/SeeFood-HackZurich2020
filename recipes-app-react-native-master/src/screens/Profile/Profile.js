@@ -6,6 +6,9 @@ import { Button } from './Button';
 import { Images, nowTheme } from '../../constant';
 import { HeaderHeight } from '../../constant/utils';
 import Constants from 'expo-constants';
+import axios from 'axios';
+
+import {setUsername, getUsername} from '../../lib/authentification.js'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -16,6 +19,37 @@ export default class Profile extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  state = {
+    user_data: undefined
+  }
+
+  async componentDidMount() {
+
+    setUsername()
+    const username = await getUsername()
+    console.log(username)
+    const $this = this
+    await axios({
+      method: 'get',
+      url: 'http://10.15.1.254:5000/api/profile/'+username,
+      headers: {'content-type': 'multipart/form-data',
+                "Accept": "application/json"}
+    })
+    .then(async function (response) {
+      console.log("siiiii")
+      // console.log(response.data)
+      var user_data = response.data
+      console.log(user_data)
+      await $this.setState({user_data: user_data})
+    })
+    .catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+       // ADD THIS THROW error
+        throw error;
+    });
+  }
+
 
   render() {
     const styles = StyleSheet.create({
@@ -95,7 +129,7 @@ export default class Profile extends React.Component {
                       }}
                       color='#ffffff'
                     >
-                      Ryan Scheinder
+                      Angel Villar-Corrales
                     </Text>
 
                     <Text
@@ -109,7 +143,7 @@ export default class Profile extends React.Component {
                         opacity: .8
                       }}
                     >
-                      Photographer
+                      Engineer and Amateur Runner
                     </Text>
                   </Block>
                   <Block style={styles.info}>
@@ -134,7 +168,7 @@ export default class Profile extends React.Component {
                           size={18}
                           style={{ marginBottom: 4 }}
                         >
-                          178 cm
+                          177 cm
                         </Text>
                         <Text size={14} color="white">
                           Height
@@ -163,25 +197,20 @@ export default class Profile extends React.Component {
         </Block>
         <Block flex={0.4}
           style={{ padding: theme.SIZES.BASE, marginTop: 100 }}>
-          <SafeAreaView style={{
-            flex: 1,
-            // marginTop: Constants.statusBarHeight,
-          }}>
-            <ScrollView style={{flex: 1}} >
+          <View style={{flex: 5}}>
+            <ScrollView style={{flexGrow: 1}} >
               <View style={styles.card}>
                 <Card
                   iconDisable
-                  title="Activity Title"
+                  title="Special Diet"
                   titleFontSize={20}
                   iconName="home"
                   iconType="Entypo"
                   onPress={() => { }}
                   borderRadius={20}
-                  topRightText="09:30"
-                  bottomRightText="30 km"
                   iconBackgroundColor="#fcd"
                   textContainerNumberOfLines={null}
-                  content="General description about the activity and or the event"
+                  content="Vegetaria, Pescaterian, Low-Carbs"
                   topRightStyle={{
                     fontSize: 12,
                     fontWeight: "700",
@@ -197,17 +226,15 @@ export default class Profile extends React.Component {
               <View style={styles.card}>
                 <Card
                   iconDisable
-                  title="Activity Title"
-                  titleFontSize={20}
+                  title="Allergies"
+                  titleFontSize={18}
                   iconName="home"
                   iconType="Entypo"
                   onPress={() => { }}
                   borderRadius={20}
-                  topRightText="09:30"
-                  bottomRightText="30 km"
                   iconBackgroundColor="#fcd"
                   textContainerNumberOfLines={null}
-                  content="General description about the activity and or the event"
+                  content="--"
                   topRightStyle={{
                     fontSize: 12,
                     fontWeight: "700",
@@ -223,17 +250,16 @@ export default class Profile extends React.Component {
               <View style={styles.card}>
                 <Card
                   iconDisable
-                  title="Activity Title"
-                  titleFontSize={20}
+                  title="Goal"
+                  titleFontSize={18}
                   iconName="home"
                   iconType="Entypo"
                   onPress={() => { }}
                   borderRadius={20}
-                  topRightText="09:30"
-                  bottomRightText="30 km"
+                  bottomRightText="2200 Kcal"
                   iconBackgroundColor="#fcd"
                   textContainerNumberOfLines={null}
-                  content="General description about the activity and or the event"
+                  content="Target Daily Calories"
                   topRightStyle={{
                     fontSize: 12,
                     fontWeight: "700",
@@ -246,8 +272,33 @@ export default class Profile extends React.Component {
                   }}
                 />
               </View>
+              <View style={styles.card}>
+              <Card
+                iconDisable
+                title="Goal"
+                titleFontSize={18}
+                iconName="home"
+                iconType="Entypo"
+                onPress={() => { }}
+                borderRadius={20}
+                bottomRightText="1800 Kcal"
+                iconBackgroundColor="#fcd"
+                textContainerNumberOfLines={null}
+                content="Target Daily Calories"
+                topRightStyle={{
+                  fontSize: 12,
+                  fontWeight: "700",
+                  color: "#505e80"
+                }}
+                bottomRightStyle={{
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  color: "#505e80"
+                }}
+              />
+            </View>
             </ScrollView>
-          </SafeAreaView>
+          </View>
         </Block>
       </Block>
     );
