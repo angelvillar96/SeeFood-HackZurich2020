@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   logo:{
     fontWeight:"bold",
     fontSize:50,
-    fontFamily: "Helvetia",
+    // fontFamily: "Helvetia",
     marginLeft: width * 0.08,
     color:Theme.COLORS.PRIMARY,
     marginBottom:40

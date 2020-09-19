@@ -7,26 +7,24 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
-    TouchableHighlight
+    TouchableHighlight, Alert
 } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import axios from 'axios';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import { getUsername } from '../../lib/authentification.js'
 import styles from './styles';
 import BackButton from '../../components/BackButton/BackButton';
+import Theme from '../../constant/Theme.js';
+import host from '../../constant/config'
+import { TabRouter } from 'react-navigation';
 
 
 const { width: viewportWidth } = Dimensions.get('window');
 
-export default class RecipeScreen extends React.Component {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTransparent: 'true',
-            headerLeft: () => <BackButton
-                onPress={() => {
-                    navigation.goBack();
-                }}
-            />
-        };
-    };
+export default class NutritionScreen extends React.Component {
+
 
     constructor(props) {
         super(props);
@@ -35,6 +33,8 @@ export default class RecipeScreen extends React.Component {
         const nutrition = food.nutrition;
 
         this.state = {
+            confirmed: false,
+            payload: food,
             name: food.name,
             img: food.img,
             calcium: nutrition.calcium,
@@ -64,6 +64,53 @@ export default class RecipeScreen extends React.Component {
             water: nutrition.water,
         };
     }
+
+    logFood = async () => {
+        const username = await getUsername();
+
+        const today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth();
+        var fullYear = today.getFullYear();
+        month = month + 1;
+        if ((String(day)).length == 1) {
+            day = '0' + day;
+        }
+        if ((String(month)).length == 1) {
+            month = '0' + month;
+        }
+        const year = String(fullYear).substring(2);
+        const date = day + '.' + month + '.' + year;
+
+        const payload = this.state.payload;
+        console.log(payload);
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('date_consumed', date);
+        formData.append('payload', payload);
+
+        var self = this;
+        axios({
+            method: 'post',
+            timeout: 10000,
+            url: 'http://' + host + ':5000/api/confirm_food',
+            data: formData,
+            headers: {
+                'content-type': 'multipart/form-data',
+                'accept': 'application/json'
+            }
+        })
+        .then(function (response) {
+            console.log('response')
+            self.setState({
+                confirmed: true
+            });
+        })
+        .catch(function (error) {
+            Alert.alert('Error', 'There has been a problem with your food confirmation.');
+        });
+    }
+
 
     renderImage = ({ item }) => (
         <TouchableHighlight>
@@ -191,24 +238,31 @@ export default class RecipeScreen extends React.Component {
             return nutrient.value === null || nutrient.value === 0 ? false : true
         });
 
-        console.log(data);
-
         return (
             <ScrollView style={styles.container}>
                 <View>
                     <Image style={styles.image} source={{ uri: 'data:image/png;base64,' + this.state.img }} />
                 </View>
-                    <View style={styles.infoRecipeContainer}>
-                        <Text style={styles.infoRecipeName}>{this.state.name}</Text>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.category}>NUTRIENTS</Text>
-                        </View>
+                <View style={styles.infoRecipeContainer}>
+                    <View style={styles.row}>
+                        <Text style={styles.infoRecipeName}>{this.state.name}</Text>                    
+                        <TouchableOpacity style={this.state.confirmed ? styles.logBtnConfirmed : styles.logBtn} onPress={this.logFood} enabled={this.state.confirmed ? false : true}>
+                            {this.state.confirmed == false ? (
+                                <Text style={styles.logText}>Log</Text>
+                            ) : (
+                                <Ionicons name='ios-checkmark-outline' size={30} color={Theme.COLORS.PRIMARY} />
+                            )}                                
+                        </TouchableOpacity>
+                    </View>                    
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.category}>NUTRIENTS</Text>
                     </View>
-                    <FlatList
-                        data={filteredData}
-                        renderItem={this.renderNutrient}
-                    />
-                </ScrollView>
+                </View>
+                <FlatList
+                    data={filteredData}
+                    renderItem={this.renderNutrient}
+                />
+            </ScrollView>
 
         );
     }

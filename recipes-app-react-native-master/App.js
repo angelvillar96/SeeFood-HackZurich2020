@@ -84,7 +84,7 @@ function CameraScreenStack() {
   return (
     <CameraStack.Navigator>
        <CameraStack.Screen name="Camera" component={CameraScreen} />
-       <CameraStack.Screen name="Nutrition" component={NutritionScreen} options={{ title: 'Result' }}/>
+       <CameraStack.Screen name="Nutrition" component={NutritionScreen} />
      </CameraStack.Navigator>
   );
 }
