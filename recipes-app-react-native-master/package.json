@@ -16,6 +16,7 @@
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.2.9",
     "axios": "^0.20.0",
+    "dayjs": "^1.8.36",
     "expo": "^36.0.2",
     "expo-camera": "^8.3.1",
     "expo-permissions": "^8.0.0",
