@@ -64,7 +64,7 @@ export default class App extends React.Component {
           </View>
         ) : (
           <View style={styles.activity_indicator}>
-            
+
             <ActivityIndicator color={Theme.COLORS.PRIMARY} size='large' />
             <Text style={styles.processing_label}>Processing Food</Text>
           </View>

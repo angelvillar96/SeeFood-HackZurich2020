@@ -87,8 +87,6 @@ export default class HomeScreen extends React.Component {
 
   render() {
 
-    // console.log(this.state.recipes.length)
-    // console.log(this.state.recipes)
     return (
       <View>
         <FlatList
