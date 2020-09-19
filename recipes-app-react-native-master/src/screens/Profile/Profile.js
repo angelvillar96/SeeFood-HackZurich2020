@@ -29,7 +29,7 @@ export default class Profile extends React.Component {
 
   async componentDidMount() {
 
-    setUsername()
+    //setUsername()
     const username = await getUsername()
     console.log(username)
     const $this = this

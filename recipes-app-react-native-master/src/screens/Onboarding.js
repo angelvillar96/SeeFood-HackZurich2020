@@ -2,14 +2,16 @@ import React from 'react';
 import { StyleSheet, Dimensions, ImageBackground, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Theme from '../constant/Theme.js';
 import { Images } from '../constant';
+import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
 export default class App extends React.Component {
 
   state={
-    email:"staff@foodaie.com",
-    password:"HackZurich2020"
+    username:"",
+    password:""
   }
 
   _login = async () => {
@@ -29,16 +31,16 @@ export default class App extends React.Component {
           <TextInput
             defaultValue={this.state.email}
             style={styles.inputText}
-            placeholder="Email..."
+            placeholder="Username"
             placeholderTextColor="#003f5c"
-            onChangeText={text => this.setState({email:text})}/>
+            onChangeText={text => this.setState({username:text})}/>
         </View>
         <View style={styles.inputView} >
           <TextInput
             defaultValue={this.state.password}
             secureTextEntry
             style={styles.inputText}
-            placeholder="Password..."
+            placeholder="Password"
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({password:text})}/>
         </View>
@@ -46,7 +48,7 @@ export default class App extends React.Component {
           <Text style={styles.forgot}>Forgot Password?</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.loginBtn}
-                          onPress={() => setonBoardingStatus(true)} >
+                          onPress={() => login(this.state.username, setonBoardingStatus)} >
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
         <TouchableOpacity>
@@ -60,6 +62,32 @@ export default class App extends React.Component {
   }
 }
 
+
+  async function login(username, setonBoardingStatus){
+    console.log(username)
+    await axios({
+     method: 'get',
+     url: 'http://10.15.1.254:5000/api/login/'+ username,
+     headers: {'content-type': 'multipart/form-data',
+               "Accept": "application/json"}
+   })
+   .then(async function (response) {
+     // console.log(response.data)
+     if (response.status === 200){
+       AsyncStorage.setItem('username', username)
+       setonBoardingStatus(true)
+     }
+     else{
+       console.log("Login failed")
+     }
+
+   })
+   .catch(function(error) {
+     console.log('There has been a problem with your fetch operation: ' + error.message);
+      // ADD THIS THROW error
+       throw error;
+ });
+}
 
 
 const styles = StyleSheet.create({
@@ -81,7 +109,7 @@ const styles = StyleSheet.create({
   logo:{
     fontWeight:"bold",
     fontSize:50,
-    fontFamily: "Helvetia",
+    fontFamily: "monospace",
     marginLeft: width * 0.08,
     color:Theme.COLORS.PRIMARY,
     marginBottom:40
