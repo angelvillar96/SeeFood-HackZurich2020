@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import Theme from '../../constant/Theme.js';
 
 const { width: viewportWidth } = Dimensions.get('window');
 
@@ -23,14 +24,14 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 270,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    
   },
   infoContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   category: {
     fontSize: 14,
@@ -43,8 +44,35 @@ const styles = StyleSheet.create({
     margin: 10,
     fontWeight: 'bold',
     color: 'black',
-    textAlign: 'center'
+    // textAlign: 'left',
   },
+  logBtn:{
+    width:80,
+    backgroundColor:Theme.COLORS.PRIMARY,
+    borderRadius:25,
+    height:50,
+    alignItems:"center",
+    justifyContent:"center",
+  },
+  logBtnConfirmed: {
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: Theme.COLORS.PRIMARY,
+    width: 80,
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  logText:{
+    color:"white",
+    fontWeight: 'bold'
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });
 
 export default styles;

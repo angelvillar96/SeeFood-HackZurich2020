@@ -23,12 +23,6 @@ export default class CameraScreen extends React.Component {
     processing: false,
   }
 
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTransparent: 'true'
-    };
-  };
-
   render() {
     const {
       hasCameraPermission,
@@ -134,6 +128,7 @@ export default class CameraScreen extends React.Component {
       var self = this;
       axios({
         method: 'post',
+        timeout: 10000,
         url: 'http://' + host + ':5000/api/process_food',
         data: formData,
         headers: {
