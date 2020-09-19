@@ -5,7 +5,6 @@ import { recipes } from '../../data/dataArrays';
 import MenuImage from '../../components/MenuImage/MenuImage';
 import DrawerActions from 'react-navigation';
 import { getCategoryName } from '../../data/MockDataAPI';
-import axios from 'axios';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
