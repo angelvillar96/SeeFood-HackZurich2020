@@ -7,6 +7,8 @@ import { HeaderHeight } from '../../constant/utils';
 import { ProgressBar, Colors } from 'react-native-paper';
 import axios from 'axios';
 
+import host from '../../constant/config'
+
 const { width, height } = Dimensions.get('screen');
 
 const thumbMeasure = (width - 48 - 32) / 3;
@@ -46,7 +48,7 @@ export default class Profile extends React.Component {
     const username = await getUsername()
     await axios({
       method: 'get',
-      url: 'http://10.15.1.254:5000/api/overview/'+ username + '/' + this.state.date,
+      url: 'http://' + host + ':5000/api/overview/'+ username + '/' + this.state.date,
       headers: {'content-type': 'multipart/form-data',
                 "Accept": "application/json"}
     })

@@ -11,6 +11,7 @@ import { AsyncStorage } from 'react-native';
 
 import {setUsername} from '../../lib/authentification.js'
 import {getUsername} from '../../lib/authentification.js'
+import host from '../../constant/config'
 
 
 export default class HomeScreen extends React.Component {
@@ -48,7 +49,7 @@ export default class HomeScreen extends React.Component {
     const $this = this
     await axios({
       method: 'post',
-      url: 'http://10.15.1.254:5000/api/get_recipe',
+      url: 'http://' + host + ':5000/api/get_recipe',
       data: formData,
       headers: {'content-type': 'multipart/form-data',
                 "Accept": "application/json"}
