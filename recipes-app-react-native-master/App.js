@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from './src/screens/Home/HomeScreen';
+import NewsFeedScreen from './src/screens/NewsFeed/NewsFeed';
 import DietOverviewScreen from './src/screens/DietOverview/DietOverview';
 import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
@@ -23,6 +24,16 @@ function HomeScreenStack() {
   );
 }
 
+const NewsFeed = createStackNavigator();
+
+function NewsFeedStack() {
+  return (
+    <NewsFeed.Navigator>
+      <NewsFeed.Screen name="DietOverview" component={NewsFeedScreen} />
+    </NewsFeed.Navigator>
+  );
+}
+
 const DietOverview = createStackNavigator();
 
 function DietOverviewStack() {
@@ -32,7 +43,6 @@ function DietOverviewStack() {
     </DietOverview.Navigator>
   );
 }
-
 
 const CameraStack = createStackNavigator();
 
@@ -64,7 +74,9 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === 'Home') {
+            if (route.name === 'NewsFeed') {
+              iconName = 'ios-home';
+            }else if (route.name === 'Recipes') {
               iconName = 'ios-home';
             } else if (route.name === 'Overview') {
               iconName = 'list-outline';
@@ -83,7 +95,8 @@ export default function App() {
           inactiveTintColor: 'gray',
         }}
       >
-        <Tab.Screen name="Home" component={HomeScreenStack} />
+        <Tab.Screen name="NewsFeed" component={NewsFeedStack} />
+        <Tab.Screen name="Recipes" component={HomeScreenStack} />
         <Tab.Screen name="Overview" component={DietOverviewStack} />
         <Tab.Screen name="Scan" component={CameraScreenStack} />
         <Tab.Screen name="Profile" component={ProfileScreenStack} />
