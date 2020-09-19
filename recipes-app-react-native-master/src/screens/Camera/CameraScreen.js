@@ -4,6 +4,8 @@ import { Camera} from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import axios from 'axios';
 
+import {getUsername} from '../../lib/authentification.js'
+
 export default class App extends React.Component {
   state = {
     hasCameraPermission: false,
@@ -90,19 +92,24 @@ export default class App extends React.Component {
       const options = { quality: 0.1, base64: true};
       const photo = await this._cameraInstance.takePictureAsync(options);
       this.setState({ photo })
-      const {uri, width, height,base64} = photo;
+      const {uri, width, height, base64} = photo;
       // console.log({uri, width, height});
 
       // Post the base54 image data
-      console.log("hola")
+      const username = await getUsername()
+      console.log(username)
+      const formData = new FormData()
+      formData.append("username", username);
+      formData.append("image", base64);
       axios({
         method: 'post',
-        url: 'http://10.15.0.208:5000/api/process_food/',
-        data: {img: base64},
+        url: 'http://10.15.1.254:5000/api/process_food',
+        data: formData,
         headers: {'content-type': 'multipart/form-data',
                   "Accept": "application/json"}
       })
       .then(function (response) {
+        console.log("siiiii")
         console.log(response.data)
       })
       .catch(function(error) {

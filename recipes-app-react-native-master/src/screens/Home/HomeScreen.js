@@ -6,6 +6,10 @@ import MenuImage from '../../components/MenuImage/MenuImage';
 import DrawerActions from 'react-navigation';
 import { getCategoryName } from '../../data/MockDataAPI';
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
+
+import {setUsername} from '../../lib/authentification.js'
+
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -19,6 +23,7 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    setUsername()
   }
 
   onPressRecipe = item => {
