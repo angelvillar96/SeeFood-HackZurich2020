@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './src/screens/Home/HomeScreen';
 import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
+import CameraScreen from './src/screens/Camera/CameraScreen';
 
 const HomeStack = createStackNavigator();
 
@@ -17,6 +18,16 @@ function HomeScreenStack() {
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={HomeScreen} />
     </HomeStack.Navigator>    
+  );
+}
+
+const CameraStack = createStackNavigator();
+
+function CameraScreenStack() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Camera" component={CameraScreen} />
+    </HomeStack.Navigator>
   );
 }
 
@@ -58,7 +69,7 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Home" component={HomeScreenStack} />
-        <Tab.Screen name="Scan" component={CategoriesScreen} />
+        <Tab.Screen name="Scan" component={CameraScreenStack} />
         <Tab.Screen name="Profile" component={ProfileScreenStack} />
       </Tab.Navigator>
     </NavigationContainer >
