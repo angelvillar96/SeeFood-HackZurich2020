@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View, Platform, Button, Image } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import axios from 'axios';
 
 import {getUsername} from '../../lib/authentification.js'
+import Theme from '../../constant/Theme.js';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class App extends React.Component {
   state = {
@@ -46,10 +48,13 @@ export default class App extends React.Component {
         />
 
         <View style={styles.controls}>
-          <Button
-            title="Take photo"
-            onPress={this._takePictureButtonPressed}
-          />
+          <TouchableOpacity
+            style={styles.camera_button}
+            // title="Take photo"
+            onPress={this._takePictureButtonPressed} >
+
+            <Ionicons name='ios-camera' size='50' color='white' />
+          </TouchableOpacity>
 
           {photo && <Image style={styles.photo} source={photo} />}
         </View>
@@ -131,6 +136,16 @@ const styles = StyleSheet.create({
 
   camera: {
     flex: 1,
+  },
+
+  camera_button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 75,
+    height: 75,
+    backgroundColor: Theme.COLORS.PRIMARY,
+    borderRadius: 50,
+    marginBottom: 48,
   },
 
   controls: {
