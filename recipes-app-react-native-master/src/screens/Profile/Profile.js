@@ -9,6 +9,8 @@ import { HeaderHeight } from '../../constant/utils';
 import Constants from 'expo-constants';
 import axios from 'axios';
 
+import host from '../../constant/config'
+
 import {setUsername, getUsername} from '../../lib/authentification.js'
 
 const { width, height } = Dimensions.get('screen');
@@ -33,7 +35,7 @@ export default class Profile extends React.Component {
     const $this = this
     await axios({
       method: 'get',
-      url: 'http://10.15.1.254:5000/api/profile/'+username,
+      url: 'http://' + host + ':5000/api/profile/'+username,
       headers: {'content-type': 'multipart/form-data',
                 "Accept": "application/json"}
     })

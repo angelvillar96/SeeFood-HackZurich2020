@@ -7,6 +7,8 @@ import { HeaderHeight } from '../../constant/utils';
 import { ProgressBar, Colors } from 'react-native-paper';
 import axios from 'axios';
 
+import host from '../../constant/config'
+
 const { width, height } = Dimensions.get('screen');
 
 const thumbMeasure = (width - 48 - 32) / 3;
@@ -41,22 +43,24 @@ export default class Profile extends React.Component {
 
     console.log(day + '.' + month + '.' + year)
     this.setState({date: day + '.' + month + '.' + year})
-
+    const $this = this
     setUsername()
     const username = await getUsername()
-    const $this = this
     await axios({
       method: 'get',
-      url: 'http://10.15.1.254:5000/api/overview/'+ username + '/' + this.state.date,
+      url: 'http://' + host + ':5000/api/overview/'+ username + '/' + this.state.date,
       headers: {'content-type': 'multipart/form-data',
                 "Accept": "application/json"}
     })
     .then(async function (response) {
-      console.log("siiiii")
       // console.log(response.data)
-      var user_data = response.data
-      console.log(user_data)
-      await $this.setState({user_data: user_data})
+      var data = response.data
+      console.log(data)
+
+      $this.setState({foods: data.foods});
+      $this.setState({total_fat: data.total_fat});
+      $this.setState({total_carbs: data.total_carbs})
+      $this.setState({total_protein: data.total_protein})
     })
     .catch(function(error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
