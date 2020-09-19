@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, Platform, Button, Image } from 'react-native'
-import { Camera} from 'expo-camera'
+import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 
 export default class App extends React.Component {
@@ -84,26 +84,54 @@ export default class App extends React.Component {
 
   _takePictureButtonPressed = async () => {
     if (this._cameraInstance) {
-      const options = { quality: 0.1, base64: true};
+      const options = { quality: 0.1, base64: true };
       const photo = await this._cameraInstance.takePictureAsync(options);
       this.setState({ photo })
-      const {uri, width, height,base64} = photo;
-      // console.log({uri, width, height});
-      
+      const { uri, width, height, base64 } = photo;
       // Post the base54 image data
-      /*
-      fetch('.........', {
-        method: 'POST',
+      // fetch('10.15.0.208:5000/process_food', {
+      //   method: 'POST',
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json',
+      //     'Content-Transfer-Encoding':'base64'
+      //   },
+      //   body: JSON.stringify({
+      //     image: base64
+      //   }),
+      // });
+      //
+
+      // axios({ method: "post", url:'',
+      // data: {image: base64},
+      // headers: {
+      //       Accept: 'application/json',
+      //       'Content-Type': 'application/json',
+      //       'Content-Transfer-Encoding':'base64'
+      //     },
+      // })
+      // .then(function (response) {
+      //   console.log(response);
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
+
+      //     fetch('https://jsonplaceholder.typicode.com/todos/1')
+      //     .then(response => response.json())
+      //     .then(json => console.log(json))
+      // }
+
+      fetch('http://10.15.0.208:5000/process_food', {
+        method: 'post',
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Content-Transfer-Encoding':'base64'
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          base64: base64
-        }),
-      });
-      */
+        body: JSON.stringify({ image: base64 },)
+      }).then(res => res.json())
+        .then(res => console.log(res));
+
     }
   }
 }
