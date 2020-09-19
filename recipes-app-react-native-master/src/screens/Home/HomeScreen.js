@@ -1,10 +1,12 @@
 import React from 'react';
-import { FlatList, ScrollView, Text, View, TouchableHighlight, Image } from 'react-native';
+import {StyleSheet, FlatList, ScrollView, Text, View, TouchableHighlight, Image } from 'react-native';
 import styles from './styles';
 import MenuImage from '../../components/MenuImage/MenuImage';
 import DrawerActions from 'react-navigation';
 import { getCategoryName } from '../../data/MockDataAPI';
 import axios from 'axios';
+import RecipeScreen from '../Recipe/RecipeScreen';
+import Theme from '../../constant/Theme.js';
 import { AsyncStorage } from 'react-native';
 
 import {setUsername} from '../../lib/authentification.js'
@@ -13,8 +15,8 @@ import {getUsername} from '../../lib/authentification.js'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Home',
-    headerLeft: () => <MenuImage
+    title: 'Recipes',
+    headerLeft: () => <RecipeScreen
       onPress={() => {
         navigation.openDrawer();
       }}
@@ -72,6 +74,7 @@ export default class HomeScreen extends React.Component {
 
   onPressRecipe = item => {
     this.props.navigation.navigate('Recipe', { item });
+    // this.props.navigation.navigate('RecipeScreen');
   };
 
 
@@ -88,7 +91,7 @@ export default class HomeScreen extends React.Component {
   render() {
 
     return (
-      <View>
+      <View style={styling.screen}>
         <FlatList
           vertical
           showsVerticalScrollIndicator={false}
@@ -101,3 +104,10 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+const styling = StyleSheet.create({
+  screen: {
+    backgroundColor: Theme.COLORS.BACKGROUND,
+    flexDirection: "column"
+  }
+});

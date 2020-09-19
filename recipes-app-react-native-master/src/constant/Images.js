@@ -7,9 +7,11 @@ const Pro = require('../../assets/imgs/bg.png');
 const NowLogo = require('../../assets/imgs/now-logo.png');
 const iOSLogo = require('../../assets/imgs/ios.png');
 const androidLogo = require('../../assets/imgs/android.png');
-const ProfilePicture = require('../../assets/imgs/profile-img.jpg');
+const ProfilePicture = require('../../assets/imgs/profile.png');
 const CreativeTimLogo = require('../../assets/imgs/creative-tim-white-slim2.png');
 const InvisionLogo = require('../../assets/imgs/invision-white-slim.png');
+const Bot = require('../../assets/icons/bot.png');
+const OnboardBackground = require('../../assets/imgs/earth.jpg');
 
 const Viewed = [
   require('../../assets/imgs/project5.jpg'),
@@ -27,7 +29,9 @@ const Products = {
 
 export default {
   Onboarding,
+  OnboardBackground,
   Logo,
+  Bot,
   ProfileBackground,
   ProfilePicture,
   RegisterBackground,

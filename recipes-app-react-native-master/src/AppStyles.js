@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import Theme from './constant/Theme.js';
 
 // screen sizing
 const { width, height } = Dimensions.get('window');
@@ -20,7 +21,7 @@ export const RecipeCard = StyleSheet.create({
     marginTop: 20,
     width: (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) / recipeNumColums,
     height: RECIPE_ITEM_HEIGHT + 75,
-    borderColor: '#cccccc',
+    borderColor: Theme.COLORS.BLACK,
     borderWidth: 0.5,
     borderRadius: 15
   },
@@ -36,7 +37,7 @@ export const RecipeCard = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#444444',
+    color: Theme.COLORS.PRIMARY,
     marginTop: 3,
     marginRight: 5,
     marginLeft: 5,

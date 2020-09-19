@@ -14,9 +14,29 @@ import DietOverviewScreen from './src/screens/DietOverview/DietOverview';
 import CategoriesScreen from './src/screens/Categories/CategoriesScreen';
 import SearchScreen from './src/screens/Search/SearchScreen';
 import CameraScreen from './src/screens/Camera/CameraScreen';
+import RecipeScreen from './src/screens/Recipe/RecipeScreen';
 import Profile from './src/screens/Profile/Profile';
 import Onboarding from './src/screens/Onboarding';
 import NutritionScreen from './src/screens/Nutrition/NutritionScreen';
+
+const Stack = createStackNavigator();
+<NavigationContainer>
+    <Stack.Navigator initialRouteName="Recipes">
+      <Stack.Screen name="Recipes" component={HomeScreen} />
+      <Stack.Screen name="Recipe" component={RecipeScreen} />
+    </Stack.Navigator>
+</NavigationContainer>
+
+
+const OnboardingStack = createStackNavigator();
+
+function OnboardingScreenStack() {
+  return (
+    <OnboardingStack.Navigator>
+      <OnboardingStack.Screen name="Onboard" component={Onboarding} />
+    </OnboardingStack.Navigator>
+  );
+}
 
 const HomeStack = createStackNavigator();
 
@@ -28,12 +48,22 @@ function HomeScreenStack() {
   );
 }
 
+const RecipeStack = createStackNavigator();
+
+function RecipeScreenStack() {
+  return (
+    <RecipeStack.Navigator>
+      <RecipeStack.Screen name="Recipe" component={RecipeScreen} />
+    </RecipeStack.Navigator>
+  );
+}
+
 const NewsFeed = createStackNavigator();
 
 function NewsFeedStack() {
   return (
     <NewsFeed.Navigator>
-      <NewsFeed.Screen name="DietOverview" component={NewsFeedScreen} />
+      <NewsFeed.Screen name="NewsFeed" component={NewsFeedScreen} />
     </NewsFeed.Navigator>
   );
 }

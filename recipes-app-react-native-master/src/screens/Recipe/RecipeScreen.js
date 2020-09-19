@@ -44,16 +44,12 @@ export default class RecipeScreen extends React.Component {
     </TouchableHighlight>
   );
 
-  onPressIngredient = item => {
-    var name = getIngredientName(item);
-    let ingredient = item;
-    this.props.navigation.navigate('Ingredient', { ingredient, name });
-  };
+
 
   render() {
     const { activeSlide } = this.state;
     const { navigation } = this.props;
-    // console.log(this.props)
+    console.log(this.props)
     const item = navigation.getParam('item');
     const category = getCategoryById(item.categoryId);
     const title = getCategoryName(category.id);

@@ -16,30 +16,33 @@ import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
+import Onboarding from '../../src/screens/Onboarding';
 
-// const MainNavigator = createStackNavigator(
-//   {
-//     Home: HomeScreen,
-//     Categories: CategoriesScreen,
-//     Recipe: RecipeScreen,
-//     RecipesList: RecipesListScreen,
-//     Ingredient: IngredientScreen,
-//     Search: SearchScreen,
-//     IngredientsDetails: IngredientsDetailsScreen
-//   },
-//   {
-//     initialRouteName: 'Home',
-//     // headerMode: 'float',
-//     defaulfNavigationOptions: ({ navigation }) => ({
-//       headerTitleStyle: {
-//         fontWeight: 'bold',
-//         textAlign: 'center',
-//         alignSelf: 'center',
-//         flex: 1,
-//       }
-//     })
-//   }
-// );
+
+const MainNavigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Categories: CategoriesScreen,
+    Onboarding: Onboarding,
+    Recipe: RecipeScreen,
+    RecipesList: RecipesListScreen,
+    Ingredient: IngredientScreen,
+    Search: SearchScreen,
+    IngredientsDetails: IngredientsDetailsScreen
+  },
+  {
+    initialRouteName: 'Home',
+    // headerMode: 'float',
+    defaulfNavigationOptions: ({ navigation }) => ({
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        alignSelf: 'center',
+        flex: 1,
+      }
+    })
+  }
+);
 
 const Tab = createBottomTabNavigator();
 
