@@ -58,7 +58,7 @@ export default class App extends React.Component {
               // title="Take photo"
               onPress={this._takePictureButtonPressed} >
 
-              <Ionicons name='ios-camera' size='50' color='white' />
+              <Ionicons name='ios-camera' size={50.0} color='white' />
             </TouchableOpacity>
             {photo && <Image style={styles.photo} source={photo} />}
           </View>
