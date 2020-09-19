@@ -13,6 +13,19 @@ const InvisionLogo = require('../../assets/imgs/invision-white-slim.png');
 const Bot = require('../../assets/icons/bot.png');
 const OnboardBackground = require('../../assets/imgs/earth.jpg');
 
+const NewsImgs = [
+  require("../../assets/imgs/sharing_salad.jpg"),
+  require("../../assets/medals/seven_days.png"),
+  require("../../assets/medals/couch_potato.png"),
+  require("../../assets/imgs/chocolate_cake.jpg")
+];
+// const NewsImgs = [
+//   "../../assets/imgs/sharing_salad.jpg",
+//   "../../assets/medals/seven_days.png",
+//   "../../assets/medals/couch_potato.png",
+//   "../../assets/imgs/chocolate_cake.jpg"
+// ];
+
 const Viewed = [
   require('../../assets/imgs/project5.jpg'),
   require('../../assets/imgs/project7.jpg'),
@@ -28,6 +41,7 @@ const Products = {
 };
 
 export default {
+  NewsImgs,
   Onboarding,
   OnboardBackground,
   Logo,

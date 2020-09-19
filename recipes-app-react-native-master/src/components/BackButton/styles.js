@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+import Theme from '../../constant/Theme';
 const styles = StyleSheet.create({
   btnContainer: {
     flex: 1,
@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 10,
     backgroundColor: 'white',
+    color: Theme.COLORS.PRIMARY,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

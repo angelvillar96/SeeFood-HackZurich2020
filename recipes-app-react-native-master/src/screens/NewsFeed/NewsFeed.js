@@ -41,7 +41,7 @@ function NewsFeed() {
             // imageStyle={styles.cardImageRadius}
             imageBlockStyle={{ padding: 10 }}
             image={article.urlToImage}
-          />  
+          />
           )
         }
       </Block>

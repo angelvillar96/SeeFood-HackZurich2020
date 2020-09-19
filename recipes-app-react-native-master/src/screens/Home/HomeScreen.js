@@ -55,7 +55,6 @@ export default class HomeScreen extends React.Component {
                 "Accept": "application/json"}
     })
     .then(async function (response) {
-      console.log("siiiii")
       // console.log(response.data)
       var recipes = response.data.recommendations
       console.log(recipes)
@@ -75,7 +74,6 @@ export default class HomeScreen extends React.Component {
 
   onPressRecipe = item => {
     this.props.navigation.navigate('Recipe', { item });
-    // this.props.navigation.navigate('RecipeScreen');
   };
 
 
