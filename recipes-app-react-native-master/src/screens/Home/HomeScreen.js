@@ -75,7 +75,6 @@ export default class HomeScreen extends React.Component {
 
   onPressRecipe = item => {
     this.props.navigation.navigate('Recipe', { item });
-    // this.props.navigation.navigate('RecipeScreen');
   };
 
 

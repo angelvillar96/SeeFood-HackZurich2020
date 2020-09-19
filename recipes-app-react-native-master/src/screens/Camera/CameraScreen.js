@@ -140,7 +140,7 @@ export default class CameraScreen extends React.Component {
           self.setState({
             processing: false
           });
-          
+
           self.props.navigation.navigate('Nutrition', {response: response.data});
         })
         .catch(function (error) {
