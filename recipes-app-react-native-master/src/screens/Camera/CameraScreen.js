@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { getUsername } from '../../lib/authentification.js'
 import Theme from '../../constant/Theme.js';
-import ResultScreen from '../Nutrition/NutritionScreen';
+import host from '../../constant/config'
 
 
 export default class CameraScreen extends React.Component {
@@ -134,7 +134,7 @@ export default class CameraScreen extends React.Component {
       var self = this;
       axios({
         method: 'post',
-        url: 'http://10.15.1.254:5000/api/process_food', // 10.15.1.254 192.168.2.115
+        url: 'http://' + host + ':5000/api/process_food',
         data: formData,
         headers: {
           'content-type': 'multipart/form-data',
