@@ -17,6 +17,7 @@ import CameraScreen from './src/screens/Camera/CameraScreen';
 import RecipeScreen from './src/screens/Recipe/RecipeScreen';
 import Profile from './src/screens/Profile/Profile';
 import Onboarding from './src/screens/Onboarding';
+import NutritionScreen from './src/screens/Nutrition/NutritionScreen';
 
 const Stack = createStackNavigator();
 <NavigationContainer>
@@ -81,9 +82,10 @@ const CameraStack = createStackNavigator();
 
 function CameraScreenStack() {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Camera" component={CameraScreen} />
-    </HomeStack.Navigator>
+    <CameraStack.Navigator>
+       <CameraStack.Screen name="Camera" component={CameraScreen} />
+       <CameraStack.Screen name="Nutrition" component={NutritionScreen} options={{ title: 'Result' }}/>
+     </CameraStack.Navigator>
   );
 }
 
