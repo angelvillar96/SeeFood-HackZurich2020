@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions, ImageBackground, Text, View, TextInput, Touchab
 import Theme from '../constant/Theme.js';
 import { Images } from '../constant';
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -73,6 +74,7 @@ export default class App extends React.Component {
    .then(async function (response) {
      // console.log(response.data)
      if (response.status === 200){
+       AsyncStorage.setItem('username', username)
        setonBoardingStatus(true)
      }
      else{

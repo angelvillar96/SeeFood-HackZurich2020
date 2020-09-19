@@ -44,11 +44,12 @@ export default class Profile extends React.Component {
     console.log(day + '.' + month + '.' + year)
     this.setState({date: day + '.' + month + '.' + year})
     const $this = this
-    setUsername()
+    //setUsername()
     const username = await getUsername()
+    console.log(username)
     await axios({
       method: 'get',
-      url: 'http://' + host + ':5000/api/overview/'+ username + '/' + this.state.date,
+      url: 'http://10.15.1.254:5000/api/overview/'+ username + '/' + this.state.date,
       headers: {'content-type': 'multipart/form-data',
                 "Accept": "application/json"}
     })
