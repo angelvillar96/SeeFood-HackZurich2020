@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Platform, Button, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
+import axios from 'axios';
 
 export default class App extends React.Component {
   state = {
@@ -80,6 +81,8 @@ export default class App extends React.Component {
         console.log('err', err)
       }
     }
+
+
   }
 
   _takePictureButtonPressed = async () => {
@@ -87,55 +90,29 @@ export default class App extends React.Component {
       const options = { quality: 0.1, base64: true };
       const photo = await this._cameraInstance.takePictureAsync(options);
       this.setState({ photo })
-      const { uri, width, height, base64 } = photo;
+      const {uri, width, height,base64} = photo;
+      // console.log({uri, width, height});
+
       // Post the base54 image data
-      // fetch('10.15.0.208:5000/process_food', {
-      //   method: 'POST',
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json',
-      //     'Content-Transfer-Encoding':'base64'
-      //   },
-      //   body: JSON.stringify({
-      //     image: base64
-      //   }),
-      // });
-      //
-
-      // axios({ method: "post", url:'',
-      // data: {image: base64},
-      // headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
-      //       'Content-Transfer-Encoding':'base64'
-      //     },
-      // })
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
-
-      //     fetch('https://jsonplaceholder.typicode.com/todos/1')
-      //     .then(response => response.json())
-      //     .then(json => console.log(json))
-      // }
-
-      fetch('http://10.15.0.208:5000/process_food', {
+      console.log("hola")
+      axios({
         method: 'post',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ image: base64 },)
-      }).then(res => res.json())
-        .then(res => console.log(res));
-
+        url: 'http://10.15.0.208:5000/api/process_food/',
+        data: {img: base64},
+        headers: {'content-type': 'multipart/form-data',
+                  "Accept": "application/json"}
+      })
+      .then(function (response) {
+        console.log(response.data)
+      })
+      .catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+         // ADD THIS THROW error
+          throw error;
+      });
     }
   }
 }
-
 
 
 const styles = StyleSheet.create({
@@ -167,5 +144,5 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
-  },
+  }
 })
