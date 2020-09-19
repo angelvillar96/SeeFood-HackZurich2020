@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Platform, Button, Image } from 'react-native'
 import { Camera} from 'expo-camera'
 import * as Permissions from 'expo-permissions'
+import axios from 'axios';
 
 export default class App extends React.Component {
   state = {
@@ -80,6 +81,8 @@ export default class App extends React.Component {
         console.log('err', err)
       }
     }
+
+
   }
 
   _takePictureButtonPressed = async () => {
@@ -89,25 +92,27 @@ export default class App extends React.Component {
       this.setState({ photo })
       const {uri, width, height,base64} = photo;
       // console.log({uri, width, height});
-      
+
       // Post the base54 image data
-      /*
-      fetch('.........', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Content-Transfer-Encoding':'base64'
-        },
-        body: JSON.stringify({
-          base64: base64
-        }),
+      console.log("hola")
+      axios({
+        method: 'post',
+        url: 'http://10.15.0.208:5000/api/process_food/',
+        data: {img: base64},
+        headers: {'content-type': 'multipart/form-data',
+                  "Accept": "application/json"}
+      })
+      .then(function (response) {
+        console.log(response.data)
+      })
+      .catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+         // ADD THIS THROW error
+          throw error;
       });
-      */
     }
   }
 }
-
 
 
 const styles = StyleSheet.create({
@@ -139,5 +144,5 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
-  },
+  }
 })
