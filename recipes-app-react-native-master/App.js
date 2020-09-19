@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import Theme from './src/constant/Theme';
+
 import HomeScreen from './src/screens/Home/HomeScreen';
 import NewsFeedScreen from './src/screens/NewsFeed/NewsFeed';
 import DietOverviewScreen from './src/screens/DietOverview/DietOverview';
@@ -91,8 +93,8 @@ export default function App() {
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
+          activeTintColor: Theme.COLORS.PRIMARY,
+          inactiveTintColor: Theme.COLORS.SWITCH_OFF,
         }}
       >
         <Tab.Screen name="NewsFeed" component={NewsFeedStack} />
