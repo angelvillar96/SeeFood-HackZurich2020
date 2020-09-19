@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
-
+import {setUsername, getUsername} from '../../lib/authentification.js'
 import { Images, nowTheme } from '../../constant';
 import { HeaderHeight } from '../../constant/utils';
 import { ProgressBar, Colors } from 'react-native-paper';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -14,6 +15,54 @@ export default class Profile extends React.Component {
 
   constructor(props) {
     super(props);
+  }
+  state = {
+    foods: [],
+    total_calories: 0,
+    total_fat: 0,
+    total_protein: 0,
+    total_carbs: 0,
+    progress: 0,
+    date: ""
+  }
+
+  async componentDidMount() {
+    today = new Date()
+    var day = today.getDate().toString()
+    if (day.lenght === 1){
+      day = '0'+ day;
+    }
+    var month = (today.getMonth() + 1).toString();
+    if(month.length === 1){
+      month = '0' + month;
+    }
+    var year = today.getFullYear().toString();
+    year = year.substr(2, 3)
+
+    console.log(day + '.' + month + '.' + year)
+    this.setState({date: day + '.' + month + '.' + year})
+
+    setUsername()
+    const username = await getUsername()
+    const $this = this
+    await axios({
+      method: 'get',
+      url: 'http://10.15.1.254:5000/api/overview/'+ username + '/' + this.state.date,
+      headers: {'content-type': 'multipart/form-data',
+                "Accept": "application/json"}
+    })
+    .then(async function (response) {
+      console.log("siiiii")
+      // console.log(response.data)
+      var user_data = response.data
+      console.log(user_data)
+      await $this.setState({user_data: user_data})
+    })
+    .catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+       // ADD THIS THROW error
+        throw error;
+    });
   }
 
   render() {
@@ -139,7 +188,7 @@ export default class Profile extends React.Component {
                           26
                         </Text>
                         <Text  size={14} color="white">
-                          Comments
+                          Hello
                           </Text>
                       </Block>
 
@@ -170,28 +219,8 @@ export default class Profile extends React.Component {
                 {/* <Button style={{ width: 114, height: 44, marginHorizontal: 5, elevation: 0 }} textStyle={{ fontSize: 16 }} round>
                   Follow
                 </Button> */}
-                <GaButton
-                  round
-                  onlyIcon
-                  shadowless
-                  icon="twitter"
-                  iconFamily="Font-Awesome"
-                  iconColor={nowTheme.COLORS.WHITE}
-                  iconSize={nowTheme.SIZES.BASE * 1.375}
-                  color={'#888888'}
-                  style={[styles.social, styles.shadow]}
-                />
-                <GaButton
-                  round
-                  onlyIcon
-                  shadowless
-                  icon="pinterest"
-                  iconFamily="Font-Awesome"
-                  iconColor={nowTheme.COLORS.WHITE}
-                  iconSize={nowTheme.SIZES.BASE * 1.375}
-                  color={'#888888'}
-                  style={[styles.social, styles.shadow]}
-                />
+
+
               </Block>
             </Block>
           </Block>
