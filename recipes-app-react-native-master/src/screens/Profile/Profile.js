@@ -4,6 +4,7 @@ import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 import { Card } from "@paraboly/react-native-card";
 import { Button } from './Button';
 import { Images, nowTheme } from '../../constant';
+import {Theme} from '../../constant/Theme.js';
 import { HeaderHeight } from '../../constant/utils';
 import Constants from 'expo-constants';
 import axios from 'axios';

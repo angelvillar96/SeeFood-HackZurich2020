@@ -1,128 +1,124 @@
 import React from 'react';
-import { ImageBackground, Image, StyleSheet, StatusBar, Dimensions, Platform } from 'react-native';
-import { Block, Button, Text, theme } from 'galio-framework';
+import { StyleSheet, Dimensions, ImageBackground, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import Theme from '../constant/Theme.js';
+import { Images } from '../constant';
 
-const { height, width } = Dimensions.get('screen');
-import { Images, nowTheme } from '../constant';
-import { HeaderHeight } from '../constant/utils';
+const { width, height } = Dimensions.get('screen');
 
-export default class Onboarding extends React.Component {
-  render() {
+export default class App extends React.Component {
+
+  state={
+    email:"staff@foodaie.com",
+    password:"HackZurich2020"
+  }
+
+  _login = async () => {
+    this.props.navigation.navigate('Recipes');
+  }
+
+  render(){
+
     const { setonBoardingStatus } = this.props;
 
     return (
-      <Block flex style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <Block flex>
-          <ImageBackground
-            source={Images.Onboarding}
-            style={{ flex: 1, height: height, width, zIndex: 1 }}
-          />
-          <Block space="between" style={styles.padded}>
-            <Block>
-              <Block middle>
-                <Image source={Images.NowLogo} style={{ width: 115, height: 124, bottom: 200, position: 'absolute' }} />
-              </Block>
-              <Block>
-                <Block middle>
-                  <Text
-                    style={{
-                        bottom: 50, position: 'absolute', letterSpacing: 2, paddingHorizontal: 20, textAlign: 'center'
-                    }}
-                    color="white"
-                    size={44}
-                  >
-                    Now UI
-                    React Native
-                  </Text>
-                </Block>
-              </Block>
-              <Block middle row>
-                <Text
-                  color="white"
-                  size={16}
-                >
-                  Designed by
-                </Text>
-                <Image
-                  source={Images.InvisionLogo}
-                  style={{
-                    height: 28,
-                    width: 91,
-                    marginLeft: theme.SIZES.BASE
-                  }}
-                />
-              </Block>
-              <Block middle row style={{ marginTop: 15, marginBottom: 30}}>
-                <Text
-                  color="white"
-                  size={16}
-                >
-                  Coded by
-                </Text>
-                <Image
-                  source={Images.CreativeTimLogo}
-                  style={{
-                    height: 29,
-                    width: 129,
-                    marginLeft: theme.SIZES.BASE
-                  }}
-                />
-              </Block>
+      <View style={styles.container}>
+      <ImageBackground source={Images.OnboardBackground} style={styles.image}>
+      <View style={styles.contents}>
+        <Text style={styles.logo}>FoodAIe</Text>
+        <View style={styles.inputView} >
+          <TextInput
+            defaultValue={this.state.email}
+            style={styles.inputText}
+            placeholder="Email..."
+            placeholderTextColor="#003f5c"
+            onChangeText={text => this.setState({email:text})}/>
+        </View>
+        <View style={styles.inputView} >
+          <TextInput
+            defaultValue={this.state.password}
+            secureTextEntry
+            style={styles.inputText}
+            placeholder="Password..."
+            placeholderTextColor="#003f5c"
+            onChangeText={text => this.setState({password:text})}/>
+        </View>
+        <TouchableOpacity>
+          <Text style={styles.forgot}>Forgot Password?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.loginBtn}
+                          onPress={() => setonBoardingStatus(true)} >
+          <Text style={styles.loginText}>LOGIN</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.signup}>Signup</Text>
+        </TouchableOpacity>
 
-              <Block
-                row
-                style={{
-                  marginTop: theme.SIZES.BASE * 2.5,
-                  marginBottom: theme.SIZES.BASE * 2
-                }}
-              >
-                <Button
-                  shadowless
-                  style={styles.button}
-                  color={nowTheme.COLORS.PRIMARY}
-                  onPress={() => setonBoardingStatus(true)}
-                >
-                  <Text
-                    style={{ fontSize: 14 }}
-                    color={theme.COLORS.WHITE}
-                  >
-                    GET STARTED
-                  </Text>
-                </Button>
-              </Block>
-            </Block>
-          </Block>
-        </Block>
-      </Block>
+      </View>
+      </ImageBackground>
+      </View>
     );
   }
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.COLORS.BLACK,
-    marginTop: Platform.OS === 'android' ? -HeaderHeight : 0
+    flex: 1,
+    flexDirection: "column"
   },
-  padded: {
-    paddingHorizontal: theme.SIZES.BASE * 2,
-    zIndex: 3,
-    position: 'absolute',
-    bottom: Platform.OS === 'android' ? theme.SIZES.BASE * 2 : theme.SIZES.BASE * 3
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
   },
-  button: {
-    width: width - theme.SIZES.BASE * 4,
-    height: theme.SIZES.BASE * 3,
-    shadowRadius: 0,
-    shadowOpacity: 0
+  contents: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    paddingLeft: width * 0.15
   },
-
-  gradient: {
-    zIndex: 1,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 66
+  logo:{
+    fontWeight:"bold",
+    fontSize:50,
+    fontFamily: "monospace",
+    marginLeft: width * 0.08,
+    color:Theme.COLORS.PRIMARY,
+    marginBottom:40
+  },
+  inputView:{
+    width:"80%",
+    backgroundColor:Theme.COLORS.DEFAULT,
+    borderRadius:25,
+    height:50,
+    marginBottom:20,
+    justifyContent:"center",
+    padding:20
+  },
+  inputText:{
+    height:50,
+    color:"white"
+  },
+  forgot:{
+    color:"white",
+    fontSize:11,
+    paddingLeft: width * 0.22
+  },
+  loginBtn:{
+    width:"80%",
+    backgroundColor:Theme.COLORS.PRIMARY,
+    borderRadius:25,
+    height:50,
+    alignItems:"center",
+    justifyContent:"center",
+    marginTop:40,
+    marginBottom:10
+  },
+  loginText:{
+    color:"white"
+  },
+  signup:{
+    color:"white",
+    paddingLeft: width * 0.27
   }
 });
