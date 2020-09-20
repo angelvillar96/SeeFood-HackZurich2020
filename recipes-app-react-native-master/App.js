@@ -120,13 +120,13 @@ export default function App() {
                   let iconName;
 
                   if (route.name === 'NewsFeed') {
-                    iconName = 'ios-home';
+                    iconName = 'ios-megaphone';
                   } else if (route.name === 'Recipes') {
-                    iconName = 'ios-home';
+                    iconName = 'ios-pizza';
                   } else if (route.name === 'Overview') {
-                    iconName = 'list-outline';
+                    iconName = 'ios-pie';
                   } else if (route.name === 'Scan') {
-                    iconName = 'ios-camera';
+                    iconName = 'ios-add-circle';
                   } else if (route.name === 'Profile') {
                     iconName = 'ios-person';
                   }
@@ -142,8 +142,8 @@ export default function App() {
             >
               <Tab.Screen name="NewsFeed" component={NewsFeedStack} />
               <Tab.Screen name="Recipes" component={HomeScreenStack} />
-              <Tab.Screen name="Overview" component={DietOverviewStack} />
               <Tab.Screen name="Scan" component={CameraScreenStack} />
+              <Tab.Screen name="Overview" component={DietOverviewStack} />              
               <Tab.Screen name="Profile" component={ProfileScreenStack} />
             </Tab.Navigator>
           </NavigationContainer > : <Onboarding setonBoardingStatus={setonBoardingStatus}/>
