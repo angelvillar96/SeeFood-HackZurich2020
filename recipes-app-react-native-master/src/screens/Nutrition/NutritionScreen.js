@@ -70,16 +70,18 @@ export default class NutritionScreen extends React.Component {
 
         const today = new Date();
         var day = today.getDate();
+        day = day.toString();
         var month = today.getMonth();
+        month = (month + 1).toString();
         var fullYear = today.getFullYear();
-        month = month + 1;
-        if ((String(day)).length == 1) {
+        fullYear = fullYear.toString()
+        if (day.length == 1) {
             day = '0' + day;
         }
-        if ((String(month)).length == 1) {
+        if (month.length == 1) {
             month = '0' + month;
         }
-        const year = String(fullYear).substring(2);
+        const year = fullYear.substring(2);
         const date = day + '.' + month + '.' + year;
 
         const payload = this.state.payload;
@@ -90,10 +92,9 @@ export default class NutritionScreen extends React.Component {
         formData.append('payload', payload);
 
         var self = this;
-        axios({
-            method: 'post',
-            timeout: 10000,
-            url: 'http://' + host + ':5000/api/confirm_food',
+        await axios({
+            method: 'POST',
+            url: 'http://10.15.1.254:5000/api/confirm_food',
             data: formData,
             headers: {
                 'content-type': 'multipart/form-data',

@@ -30,7 +30,7 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    setUsername()
+    //setUsername()
   }
 
   async componentDidMount() {
