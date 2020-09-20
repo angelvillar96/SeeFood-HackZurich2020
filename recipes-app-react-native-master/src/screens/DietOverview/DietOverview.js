@@ -30,7 +30,7 @@ export default class Profile extends React.Component {
   }
 
 
-  async componentDidMount() {
+  async componentWillMount() {
     today = new Date()
     var day = today.getDate().toString()
     if (day.lenght === 1){
@@ -54,14 +54,15 @@ export default class Profile extends React.Component {
                 "Accept": "application/json"}
     })
     .then(async function (response) {
-      var data = response.data
+      var d = response.data
       console.log("fetched data")
-      console.log(data)
+      console.log(d.data)
 
-      await $this.setState({foods: data.foods,
-                            total_fat: data.total_fat,
-                            total_carbs: data.total_carbs,
-                            total_protein: data.total_protein})
+      await $this.setState({foods: d.data.foods,
+                            total_calories: d.data.total_calories,
+                            total_fat: d.data.total_fat,
+                            total_carbs: d.data.total_carbs,
+                            total_protein: d.data.total_protein})
     })
     .catch(function(error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
@@ -165,43 +166,19 @@ export default class Profile extends React.Component {
       );
     }
 
-    const cards = []
+    //const cards = []
     console.log("State")
-    console.log(this.state)
+    console.log(this.state.foods)
     console.log("aaaaaa")
-    for(var i=0; i<this.state.foods.length; i++){
-      var calories = this.state.foods.nutrition.calories
-      var carbs = this.state.foods.nutrition.carbs
-      var proteins = this.state.foods.nutrition.proteins
-      var sugar = this.state.foods.nutrition.sugar
+    const arr = this.state.foods
+    const items = arr.map((item) =>
+      <View style={styles.card}>
+        <Card title={item.name} iconDisable content={"Calories: " + item.calories + "      C: " + item.carbs + "g   P: " + item.protein + "g   F: " + item.fat + "g"}  >
+        </Card>
+      </View>
+    )
+    console.log(items)
 
-      cards.push(
-          <View style={styles.card}>
-            <Card
-              iconDisable
-              title={this.state.foods.name}
-              titleFontSize={20}
-              iconName="home"
-              iconType="Entypo"
-              onPress={() => { }}
-              borderRadius={20}
-              iconBackgroundColor="#fcd"
-              textContainerNumberOfLines={null}
-              // content={this.state.foods.nutrition.calories}
-              topRightStyle={{
-                fontSize: 12,
-                fontWeight: "700",
-                color: "#505e80"
-              }}
-              bottomRightStyle={{
-                fontSize: 16,
-                fontWeight: "bold",
-                color: "#505e80"
-              }}
-            />
-          </View>
-        )
-    }
 
 
     return (
@@ -213,8 +190,9 @@ export default class Profile extends React.Component {
       <Block flex={0.2} style={{flex: 0.3,flexDirection: 'column'}}>
       <View style={{textAlign: "center"}}>
         <Text style={styles.title_center}>Total Calories</Text>
-        <Text style={styles.data_center}>{this.state.total_calories} / 1800</Text>
+        <Text style={styles.data_center}>{this.state.total_calories} / 2500</Text>
       </View>
+      <ProgressBar style={{marginHorizontal: 20, marginTop: 10 }}progress={this.state.total_calories / 2500} color={Colors.red800} />
       </Block>
       <Block flex={0.3} style={{flex: 0.3,flexDirection: 'row'}}>
           <View style={{flex: 3}}>
@@ -232,11 +210,7 @@ export default class Profile extends React.Component {
       </Block>
       <Block flex={1.6}
         style={{ padding: theme.SIZES.BASE, marginTop: 10 }}>
-        <View style={{flex: 5}}>
-          {
-          cards != null ? <ScrollView showsVerticalScrollIndicator={false}>{renderFoods(cards)}</ScrollView> : null
-          }
-        </View>
+        {items}
       </Block>
     </Block>
       );
