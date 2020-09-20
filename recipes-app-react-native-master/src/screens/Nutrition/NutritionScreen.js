@@ -89,7 +89,7 @@ export default class NutritionScreen extends React.Component {
         console.log(username);
         console.log(date)
         var formData = new FormData();
-        formData.append('username', username);
+        formData.append('user', username);
         formData.append('date_consumed', date);
         formData.append('data', payload);
         //console.log("------")
