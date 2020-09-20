@@ -12,12 +12,16 @@ const CreativeTimLogo = require('../../assets/imgs/creative-tim-white-slim2.png'
 const InvisionLogo = require('../../assets/imgs/invision-white-slim.png');
 const Bot = require('../../assets/icons/bot.png');
 const OnboardBackground = require('../../assets/imgs/earth.jpg');
+const salad = require("../../assets/imgs/sharing_salad.jpg");
+const sevenDays = require("../../assets/medals/seven_days.png");
+const couchPotato = require("../../assets/medals/couch_potato.png");
+const cake = require("../../assets/imgs/chocolate_cake.jpg");
 
 const NewsImgs = [
-  require("../../assets/imgs/sharing_salad.jpg"),
-  require("../../assets/medals/seven_days.png"),
-  require("../../assets/medals/couch_potato.png"),
-  require("../../assets/imgs/chocolate_cake.jpg")
+  salad,
+  sevenDays,
+  couchPotato,
+  cake
 ];
 // const NewsImgs = [
 //   "../../assets/imgs/sharing_salad.jpg",
