@@ -102,8 +102,6 @@ export default class CameraScreen extends React.Component {
         console.log('err', err)
       }
     }
-
-
   }
 
   _takePictureButtonPressed = async () => {
