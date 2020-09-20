@@ -65,8 +65,8 @@ export default class NutritionScreen extends React.Component {
         };
     }
 
-    logFood = async () => {
-        const username = await getUsername();
+    logFood = () => {
+        const username = getUsername();
 
         const today = new Date();
         var day = today.getDate();
@@ -86,29 +86,32 @@ export default class NutritionScreen extends React.Component {
 
         const payload = this.state.payload;
         console.log(payload);
-        const formData = new FormData();
+        console.log(username);
+        console.log(date)
+        var formData = new FormData();
         formData.append('username', username);
         formData.append('date_consumed', date);
-        formData.append('payload', payload);
-
-        var self = this;
-        await axios({
-            method: 'POST',
+        formData.append('data', payload);
+        //console.log("------")
+        //console.log(formData)
+        axios({
+            method: 'post',
             url: 'http://10.15.1.254:5000/api/confirm_food',
             data: formData,
             headers: {
                 'content-type': 'multipart/form-data',
-                'accept': 'application/json'
+                'Accept': 'application/json'
             }
         })
         .then(function (response) {
-            console.log('response')
-            self.setState({
+            this.setState({
                 confirmed: true
             });
         })
         .catch(function (error) {
-            Alert.alert('Error', 'There has been a problem with your food confirmation.');
+          console.log('There has been a problem with your fetch operation: ' + error.message);
+           // ADD THIS THROW error
+            throw error;
         });
     }
 
@@ -248,7 +251,7 @@ export default class NutritionScreen extends React.Component {
                     <View style={styles.row}>
                         <Text style={styles.infoRecipeName}>{this.state.name}</Text>
                         <TouchableOpacity style={this.state.confirmed ? styles.logBtnConfirmed : styles.logBtn} onPress={this.logFood} enabled={this.state.confirmed ? false : true}>
-                            {this.state.confirmed == false ? (
+                            {this.state.confirmed === false ? (
                                 <Text style={styles.logText}>Log</Text>
                             ) : (
                                 <Ionicons name='ios-checkmark-outline' size={30} color={Theme.COLORS.PRIMARY} />
