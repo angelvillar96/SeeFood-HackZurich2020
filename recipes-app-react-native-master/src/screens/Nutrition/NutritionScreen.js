@@ -245,15 +245,15 @@ export default class NutritionScreen extends React.Component {
                 </View>
                 <View style={styles.infoRecipeContainer}>
                     <View style={styles.row}>
-                        <Text style={styles.infoRecipeName}>{this.state.name}</Text>                    
+                        <Text style={styles.infoRecipeName}>{this.state.name}</Text>
                         <TouchableOpacity style={this.state.confirmed ? styles.logBtnConfirmed : styles.logBtn} onPress={this.logFood} enabled={this.state.confirmed ? false : true}>
                             {this.state.confirmed == false ? (
                                 <Text style={styles.logText}>Log</Text>
                             ) : (
                                 <Ionicons name='ios-checkmark-outline' size={30} color={Theme.COLORS.PRIMARY} />
-                            )}                                
+                            )}
                         </TouchableOpacity>
-                    </View>                    
+                    </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.category}>NUTRIENTS</Text>
                     </View>
