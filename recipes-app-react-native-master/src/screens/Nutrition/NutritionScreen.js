@@ -65,8 +65,8 @@ export default class NutritionScreen extends React.Component {
         };
     }
 
-    logFood = () => {
-        const username = getUsername();
+    logFood = async () => {
+        const username = await getUsername();
 
         const today = new Date();
         var day = today.getDate();
@@ -85,21 +85,25 @@ export default class NutritionScreen extends React.Component {
         const date = day + '.' + month + '.' + year;
 
         const payload = this.state.payload;
-        console.log(payload);
-        console.log(username);
-        console.log(date)
-        var formData = new FormData();
-        formData.append('user', username);
-        formData.append('date_consumed', date);
-        formData.append('data', payload);
+        //console.log(payload);
+        //console.log(username);
+        //console.log(date)
+        //var formData = new FormData();
+        //formData.append('user', username);
+        //formData.append('date_consumed', date);
+        //formData.append('data', payload);
         //console.log("------")
         //console.log(formData)
         axios({
             method: 'post',
             url: 'http://10.15.1.254:5000/api/confirm_food',
-            data: formData,
+            data: {
+              "date_consumed": date,
+              "user": username,
+              "data": payload
+            },
             headers: {
-                'content-type': 'multipart/form-data',
+                'content-type': 'application/json',
                 'Accept': 'application/json'
             }
         })
