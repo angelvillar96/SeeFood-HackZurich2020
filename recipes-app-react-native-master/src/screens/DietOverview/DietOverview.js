@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
+import { StyleSheet, View, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
 import { Block, Text, theme, Button as GaButton } from 'galio-framework';
 import {setUsername, getUsername} from '../../lib/authentification.js'
 import { Images, nowTheme } from '../../constant';
 import { HeaderHeight } from '../../constant/utils';
 import { ProgressBar, Colors } from 'react-native-paper';
+import { Card } from "@paraboly/react-native-card";
 import axios from 'axios';
 
 import host from '../../constant/config'
@@ -17,16 +18,17 @@ export default class Profile extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      foods: [],
+      total_calories: 0,
+      total_fat: 0,
+      total_protein: 0,
+      total_carbs: 0,
+      progress: 0,
+      date: ""
+    }
   }
-  state = {
-    foods: [],
-    total_calories: 0,
-    total_fat: 0,
-    total_protein: 0,
-    total_carbs: 0,
-    progress: 0,
-    date: ""
-  }
+
 
   async componentDidMount() {
     today = new Date()
@@ -41,12 +43,10 @@ export default class Profile extends React.Component {
     var year = today.getFullYear().toString();
     year = year.substr(2, 3)
 
-    console.log(day + '.' + month + '.' + year)
     this.setState({date: day + '.' + month + '.' + year})
-    const $this = this
+    var $this = this
     //setUsername()
     const username = await getUsername()
-    console.log(username)
     await axios({
       method: 'get',
       url: 'http://10.15.1.254:5000/api/overview/'+ username + '/' + this.state.date,
@@ -54,14 +54,14 @@ export default class Profile extends React.Component {
                 "Accept": "application/json"}
     })
     .then(async function (response) {
-      // console.log(response.data)
       var data = response.data
+      console.log("fetched data")
       console.log(data)
 
-      $this.setState({foods: data.foods});
-      $this.setState({total_fat: data.total_fat});
-      $this.setState({total_carbs: data.total_carbs})
-      $this.setState({total_protein: data.total_protein})
+      await $this.setState({foods: data.foods,
+                            total_fat: data.total_fat,
+                            total_carbs: data.total_carbs,
+                            total_protein: data.total_protein})
     })
     .catch(function(error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
@@ -72,7 +72,36 @@ export default class Profile extends React.Component {
 
   render() {
     const styles = StyleSheet.create({
-
+      title: {
+        padding: 20,
+        paddingTop: 40,
+        paddingBottom: 10,
+        fontSize:28,
+        fontWeight: "bold"
+      },
+      title_center: {
+        padding: 20,
+        paddingBottom: 10,
+        fontSize:30,
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      data: {
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginBottom: 40,
+        fontSize:22,
+        textAlign: "center"
+      },
+      data_center: {
+        paddingLeft: 20,
+        paddingRight: 20,
+        fontSize:24,
+        textAlign: "center"
+      },
+      card: {
+        paddingTop: 20
+      },
       profileContainer: {
         width,
         height,
@@ -124,8 +153,55 @@ export default class Profile extends React.Component {
     });
 
 
-    const progress_title = "You are killing it!"
-    const progress_subtitle = "You are still 100 calories behid target!"
+    const renderFoods = (cards) => {
+      return (
+        <Block style={styles.container}>
+          {
+            cards.map((card,idx) =>
+              {card}
+            )
+          }
+        </Block>
+      );
+    }
+
+    const cards = []
+    console.log("State")
+    console.log(this.state)
+    console.log("aaaaaa")
+    for(var i=0; i<this.state.foods.length; i++){
+      var calories = this.state.foods.nutrition.calories
+      var carbs = this.state.foods.nutrition.carbs
+      var proteins = this.state.foods.nutrition.proteins
+      var sugar = this.state.foods.nutrition.sugar
+
+      cards.push(
+          <View style={styles.card}>
+            <Card
+              iconDisable
+              title={this.state.foods.name}
+              titleFontSize={20}
+              iconName="home"
+              iconType="Entypo"
+              onPress={() => { }}
+              borderRadius={20}
+              iconBackgroundColor="#fcd"
+              textContainerNumberOfLines={null}
+              // content={this.state.foods.nutrition.calories}
+              topRightStyle={{
+                fontSize: 12,
+                fontWeight: "700",
+                color: "#505e80"
+              }}
+              bottomRightStyle={{
+                fontSize: 16,
+                fontWeight: "bold",
+                color: "#505e80"
+              }}
+            />
+          </View>
+        )
+    }
 
 
     return (
@@ -134,148 +210,35 @@ export default class Profile extends React.Component {
         flexDirection: 'column',
         justifyContent: 'space-between',
       }} >
-        <Block flex={0.2} >
-          <Block style={styles.backgroundStyle}>
-            <Block flex style={styles.profileCard}>
-              <Block style={{ position: 'absolute', width: width, zIndex: 5, paddingHorizontal: 20 }}>
-                <Block middle style={{ top: height * 0.15 }}>
-                  <ProgressBar progress={0.6} color="#000000"/>
-                </Block>
-                <Block style={{ top: height * 0.2 }}>
-                  <Block middle >
-                    <Text
-                      style={{
-                        marginBottom: theme.SIZES.BASE / 2,
-                        fontWeight: '900',
-                        fontSize: 26
-                      }}
-                      color='#ffffff'
-                      >
-                      {progress_title}
-                    </Text>
-
-                    <Text
-                      size={16}
-                      color="white"
-                      style={{
-                        marginTop: 5,
-                        lineHeight: 20,
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        opacity: .8
-                      }}
-                    >
-                      {progress_subtitle}
-                    </Text>
-                  </Block>
-                  <Block style={styles.info}>
-                    <Block row space="around">
-
-                      <Block middle>
-                        <Text
-                          size={18}
-                          color="white"
-                          style={{ marginBottom: 4}}
-                        >
-                          2K
-                        </Text>
-                        <Text  size={14} color="white">
-                          Friends
-                        </Text>
-                      </Block>
-
-                      <Block middle>
-                        <Text
-                          color="white"
-                          size={18}
-                          style={{ marginBottom: 4}}
-                        >
-                          26
-                        </Text>
-                        <Text  size={14} color="white">
-                          Hello
-                          </Text>
-                      </Block>
-
-                      <Block middle>
-                        <Text
-                          color="white"
-                          size={18}
-                          style={{ marginBottom: 4}}
-                        >
-                          48
-                        </Text>
-                        <Text  size={14} color="white">
-                          Bookmarks
-                        </Text>
-                      </Block>
-
-                    </Block>
-                  </Block>
-                </Block>
-
-              </Block>
-
-              <Block
-                middle
-                row
-                style={{ position: 'absolute', width: width, top: height * 0.6 - 22, zIndex: 99 }}
-              >
-                {/* <Button style={{ width: 114, height: 44, marginHorizontal: 5, elevation: 0 }} textStyle={{ fontSize: 16 }} round>
-                  Follow
-                </Button> */}
-
-
-              </Block>
-            </Block>
-          </Block>
-
-
-        </Block>
-        <Block />
-        <Block flex={0.4} style={{ padding: theme.SIZES.BASE, marginTop: 90}}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Block flex style={{ marginTop: 20 }}>
-              <Block middle>
-                <Text
-                  style={{
-                    color: '#2c2c2c',
-                    fontWeight: 'bold',
-                    fontSize: 19,
-                    marginTop: 15,
-                    marginBottom: 30,
-                    zIndex: 2
-                  }}
-                >
-                  About me
-                    </Text>
-                <Text
-                  size={16}
-                  muted
-                  style={{
-                    textAlign: 'center',
-                    zIndex: 2,
-                    lineHeight: 25,
-                    color: '#9A9A9A',
-                    paddingHorizontal: 15
-                  }}
-                >
-                  An artist of considerable range, named Ryan — the name has taken by Melbourne has raised,
-                  Brooklyn-based Nick Murphy — writes, performs and records all of his own music.
-                    </Text>
-              </Block>
-              <Block row style={{ paddingVertical: 14, paddingHorizontal: 15 }} space="between">
-                <Text bold size={16} color="#2c2c2c" style={{ marginTop: 3 }}>
-                  Album
-                    </Text>
-              </Block>
-
-              <Block style={{ paddingBottom: -HeaderHeight * 2, paddingHorizontal: 15}}>
-              </Block>
-            </Block>
-          </ScrollView>
-        </Block>
+      <Block flex={0.2} style={{flex: 0.3,flexDirection: 'column'}}>
+      <View style={{textAlign: "center"}}>
+        <Text style={styles.title_center}>Total Calories</Text>
+        <Text style={styles.data_center}>{this.state.total_calories} / 1800</Text>
+      </View>
       </Block>
+      <Block flex={0.3} style={{flex: 0.3,flexDirection: 'row'}}>
+          <View style={{flex: 3}}>
+            <Text style={styles.title}>Fat</Text>
+            <Text style={styles.data}>{this.state.total_fat}</Text>
+          </View>
+          <View style={{flex: 4}}>
+            <Text style={styles.title}>Proteins</Text>
+            <Text style={styles.data}>{this.state.total_protein}</Text>
+          </View>
+          <View style={{flex: 3}}>
+            <Text style={styles.title}>Carbs</Text>
+            <Text style={styles.data}>{this.state.total_carbs}</Text>
+          </View>
+      </Block>
+      <Block flex={1.6}
+        style={{ padding: theme.SIZES.BASE, marginTop: 10 }}>
+        <View style={{flex: 5}}>
+          {
+          cards != null ? <ScrollView showsVerticalScrollIndicator={false}>{renderFoods(cards)}</ScrollView> : null
+          }
+        </View>
+      </Block>
+    </Block>
       );
   }
 }
